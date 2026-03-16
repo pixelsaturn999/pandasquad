@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Panda Squad</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6aaa82">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Lora:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f0f5f1; --bg2:#e8f0ea; --card:#ffffff; --card2:#f7fbf8;
+  --border:#d4e4d8; --border2:#c2d9c8;
+  --accent:#6aaa82; --accent2:#559970;
+  --accent-s:rgba(106,170,130,0.12); --accent-g:rgba(106,170,130,0.25);
+  --text:#2d4233; --text2:#6d8f76; --text3:#a8c4b0; --done-txt:#b8cebe;
+  --shadow:0 1px 8px rgba(80,130,90,0.08); --shadow2:0 3px 18px rgba(80,130,90,0.12);
+  --r:14px; --rs:9px;
+}
+body.film-active {
+  --bg:#f0f3f8; --bg2:#e6ecf5; --card:#f8fafd; --card2:#f0f4fb;
+  --border:#ccd8ed; --border2:#b8cae5;
+  --accent:#5a82c8; --accent2:#4068b0;
+  --accent-s:rgba(90,130,200,0.12); --accent-g:rgba(90,130,200,0.25);
+  --text:#1e2d4a; --text2:#5a78a8; --text3:#98b4d4; --done-txt:#a8bed8;
+  --shadow:0 1px 8px rgba(40,70,130,0.08);
+}
+body.film-active::before {
+  background:radial-gradient(ellipse at 20% 0%,rgba(90,130,200,.07) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 100%,rgba(90,130,200,.05) 0%,transparent 60%) !important;
+}
+body.settings-active {
+  --bg:#272727; --bg2:#202020; --card:#323232; --card2:#2c2c2c;
+  --border:#464646; --border2:#535353;
+  --accent:#888; --accent2:#aaa;
+  --accent-s:rgba(180,180,180,0.12); --accent-g:rgba(180,180,180,0.20);
+  --text:#e8e8e8; --text2:#bbb; --text3:#707070; --done-txt:#606060;
+  --shadow:0 1px 8px rgba(0,0,0,0.28);
+}
+body.settings-active::before {
+  background:radial-gradient(ellipse at 20% 0%,rgba(120,120,120,.05) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 100%,rgba(120,120,120,.03) 0%,transparent 60%) !important;
+}
+body.ristoranti-active {
+  --bg:#fdfbef; --bg2:#faf6da; --card:#ffffff; --card2:#fdf8ea;
+  --border:#ede59a; --border2:#dfd468;
+  --accent:#f1c704; --accent2:#c9a200;
+  --accent-s:rgba(241,199,4,0.13); --accent-g:rgba(241,199,4,0.22);
+  --text:#342b00; --text2:#7a6600; --text3:#bba82e; --done-txt:#ccc07a;
+  --shadow:0 1px 8px rgba(180,150,0,0.09); --shadow2:0 3px 18px rgba(180,150,0,0.14);
+}
+body.ristoranti-active::before {
+  background:none !important;
+}
+body.ale-active {
+  --bg:#f9e3e4; --bg2:#f5d0d2; --card:#ffffff; --card2:#fdf0f0;
+  --border:#f0b8bc; --border2:#e8999f;
+  --accent:#be2d37; --accent2:#961f28;
+  --accent-s:rgba(190,45,55,0.12); --accent-g:rgba(190,45,55,0.22);
+  --text:#3a0d10; --text2:#8c3038; --text3:#c98085; --done-txt:#dba8ab;
+  --shadow:0 1px 8px rgba(180,40,50,0.09); --shadow2:0 3px 18px rgba(180,40,50,0.14);
+}
+body.ale-active::before {
+  background:none !important;
+}
+body.ale-active .logo-icon{background:#be2d37;box-shadow:0 2px 8px rgba(190,45,55,.28)}
+body.ale-active .header{background:rgba(249,227,228,.95)}
+body.ale-active .add-btn{background:#be2d37;box-shadow:0 2px 7px rgba(190,45,55,.28)}
+body.ale-active .btn-refresh-big{background:#be2d37;border-color:#961f28;color:#fff;box-shadow:0 2px 8px rgba(190,45,55,.22)}
+body.memo-active {
+  --bg:#fceffd; --bg2:#f5dcf8; --card:#ffffff; --card2:#fdf5fe;
+  --border:#e8bced; --border2:#d99de3;
+  --accent:#8240bb; --accent2:#6530a0;
+  --accent-s:rgba(130,64,187,0.12); --accent-g:rgba(130,64,187,0.22);
+  --text:#2e0e45; --text2:#7040a0; --text3:#b07aca; --done-txt:#cfa8dd;
+  --shadow:0 1px 8px rgba(110,50,170,0.09); --shadow2:0 3px 18px rgba(110,50,170,0.14);
+}
+body.memo-active::before { background:none !important; }
+body.memo-active .logo-icon{background:#8240bb;box-shadow:0 2px 8px rgba(130,64,187,.28)}
+body.memo-active .header{background:rgba(252,239,253,.95)}
+body.memo-active .add-btn{background:#8240bb;box-shadow:0 2px 7px rgba(130,64,187,.28)}
+body.memo-active .btn-refresh-big{background:#8240bb;border-color:#6530a0;color:#fff;box-shadow:0 2px 8px rgba(130,64,187,.22)}
+body.viaggi-active {
+  --bg:#e3f9f5; --bg2:#cef2ec; --card:#ffffff; --card2:#f0fdfb;
+  --border:#9dddd4; --border2:#6fcec3;
+  --accent:#08595e; --accent2:#054548;
+  --accent-s:rgba(8,89,94,0.12); --accent-g:rgba(8,89,94,0.22);
+  --text:#012425; --text2:#0a6e74; --text3:#5ab5ae; --done-txt:#8dd1cb;
+  --shadow:0 1px 8px rgba(8,89,94,0.09); --shadow2:0 3px 18px rgba(8,89,94,0.14);
+}
+body.viaggi-active::before{background:none !important;}
+body.viaggi-active .logo-icon{background:#08595e;box-shadow:0 2px 8px rgba(8,89,94,.28)}
+body.viaggi-active .header{background:rgba(227,249,245,.95)}
+body.viaggi-active .add-btn{background:#08595e;box-shadow:0 2px 7px rgba(8,89,94,.28)}
+body.viaggi-active .btn-refresh-big{background:#08595e;border-color:#054548;color:#fff;box-shadow:0 2px 8px rgba(8,89,94,.22)}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Quicksand',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;max-width:480px;margin:0 auto;padding-bottom:90px;position:relative;transition:background .3s,color .3s}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(106,170,130,.07) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(106,170,130,.05) 0%,transparent 60%);pointer-events:none;z-index:0;transition:background .3s}
+
+/* HAMBURGER BTN — three lines */
+.hamburger-btn{width:38px;height:38px;flex-shrink:0;background:transparent;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border-radius:10px;padding:8px;touch-action:manipulation;-webkit-user-select:none;user-select:none;transition:background .15s}
+.hamburger-btn:active{background:var(--accent-s)}
+.hamburger-btn span{display:block;width:18px;height:2px;background:var(--text2);border-radius:2px;transition:background .25s}
+
+/* OVERLAY */
+.menu-overlay{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.32);opacity:0;pointer-events:none;transition:opacity .25s}
+.menu-overlay.open{opacity:1;pointer-events:all}
+
+/* DRAWER */
+.menu-drawer{position:fixed;top:0;left:0;bottom:0;z-index:41;width:230px;background:#f8f8f8;box-shadow:6px 0 32px rgba(0,0,0,.15);transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.menu-drawer.open{transform:translateX(0)}
+.menu-drawer-header{padding:26px 18px 16px;border-bottom:1px solid #e8e8e8;display:flex;align-items:center;gap:12px;background:#f8f8f8}
+.menu-drawer-panda{font-size:2.2rem;line-height:1}
+.menu-drawer-title{font-family:'Lora',serif;font-size:1rem;font-weight:500;color:#2a2a2a;line-height:1.25}
+.menu-drawer-title em{font-style:italic;color:#559970}
+.menu-drawer-sub{font-size:.58rem;font-weight:600;color:#aaa;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.menu-nav{display:flex;flex-direction:column;padding:10px 0;flex:1;background:#f8f8f8}
+.menu-item{display:flex;align-items:center;gap:12px;padding:14px 18px;font-size:.8rem;font-weight:700;color:#555;cursor:pointer;border:none;background:transparent !important;outline:none;text-align:left;font-family:'Quicksand',sans-serif;transition:color .15s,border-color .15s;border-left:3px solid transparent;border-top:none;border-right:none;border-bottom:none;-webkit-user-select:none;user-select:none;touch-action:manipulation;letter-spacing:.05em;text-transform:uppercase;box-shadow:none !important}
+.menu-item:hover{color:#333}
+.menu-item.active{color:#222;border-left-color:#aaa}
+.menu-item.active.spesa-item{color:#3a7a56;border-left-color:#6aaa82}
+.menu-item.active.film-item{color:#2c52a0;border-left-color:#5a82c8}
+.menu-item.active.sett-item{color:#444;border-left-color:#888}
+.menu-item.active.ristoranti-item{color:#b07800;border-left-color:#f9a825}
+.menu-item.active.ale-item{color:#be2d37;border-left-color:#be2d37}
+.menu-item.active.memo-item{color:#8240bb;border-left-color:#8240bb}
+.menu-item.active.viaggi-item{color:#08595e;border-left-color:#08595e}
+.menu-item svg{width:17px;height:17px;flex-shrink:0;opacity:.55}
+.menu-item.active svg{opacity:1}
+.menu-item i[data-lucide]{opacity:.55;flex-shrink:0}
+.menu-item.active i[data-lucide]{opacity:1}
+.menu-item i[data-lucide] svg{width:17px;height:17px}
+.menu-divider{height:1px;background:#e8e8e8;margin:6px 18px}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:10;background:rgba(240,245,241,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 16px 9px;transition:background .3s}
+body.film-active .header{background:rgba(240,243,248,.92)}
+body.settings-active .header{background:rgba(38,38,38,.96)}
+body.ristoranti-active .header{background:rgba(253,251,239,.95)}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;gap:8px}
+.header-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#8bc49e,#5a9e72);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 2px 8px var(--accent-g);flex-shrink:0;transition:background .3s,box-shadow .3s}
+body.film-active .logo-icon{background:linear-gradient(135deg,#7aa4e8,#4068b0);box-shadow:0 2px 8px rgba(90,130,200,.3)}
+body.settings-active .logo-icon{background:linear-gradient(135deg,#555,#333);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.logo-name{font-family:'Lora',serif;font-size:.95rem;font-weight:500;color:var(--text);line-height:1.1}
+.logo-name em{font-style:italic;color:var(--accent2)}
+.logo-sub{font-size:.55rem;font-weight:600;color:var(--text3);letter-spacing:.1em;text-transform:uppercase}
+.sync-pill{display:flex;align-items:center;gap:5px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:4px 9px;font-size:.6rem;color:var(--text2);font-weight:600;letter-spacing:.02em;box-shadow:var(--shadow);flex-shrink:0}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--text3);transition:background .3s;flex-shrink:0}
+.dot.ok{background:var(--accent);box-shadow:0 0 5px var(--accent)}
+.dot.error{background:#e08080}
+.dot.syncing{background:#e2b96a;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:6px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;border-radius:var(--rs);font-family:'Quicksand',sans-serif;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .17s ease;-webkit-user-select:none;user-select:none;touch-action:manipulation;outline:none;white-space:nowrap}
+.toolbar-left{width:40%;display:flex;gap:5px;align-items:center;flex-shrink:0}
+.toolbar-right{flex:1;display:flex;gap:5px;align-items:center;background:rgba(80,130,90,0.1);border-radius:var(--rs);padding:4px 5px}
+body.film-active .toolbar-right{background:rgba(40,70,130,0.10)}
+.btn-refresh-big{flex:1;height:38px;font-size:.64rem;letter-spacing:.02em;text-transform:uppercase;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:var(--accent2);gap:5px;box-shadow:0 2px 8px var(--accent-g)}
+.btn-refresh-big svg{width:14px;height:14px}
+.btn-refresh-big:active{transform:scale(.96);opacity:.9}
+.btn-icon{width:36px;height:36px;flex-shrink:0;background:rgba(255,255,255,.7);border-color:rgba(180,210,188,.6);color:var(--text2);font-size:.72rem;font-weight:800;letter-spacing:-.01em}
+.btn-icon svg{width:15px;height:15px}
+.btn-icon:active{transform:scale(.91)}
+.btn-icon.active{background:var(--accent-s);border-color:var(--accent);color:var(--accent2)}
+.toolbar-right .btn-icon{flex:1;width:auto}
+
+/* ADD AREA */
+.add-area{padding:8px 16px 6px;position:sticky;top:var(--header-h,80px);z-index:9;background:rgba(240,245,241,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);transition:background .3s}
+body.film-active .add-area{background:rgba(240,243,248,.92)}
+.add-box{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);transition:border-color .2s,box-shadow .2s}
+.add-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-s),var(--shadow)}
+.add-row{display:flex;align-items:center;padding:4px 4px 4px 13px;gap:7px}
+.add-input{flex:1;background:transparent;border:none;outline:none;font-family:'Quicksand',sans-serif;font-size:.95rem;font-weight:500;color:var(--text);padding:8px 0;-webkit-appearance:none}
+.add-input::placeholder{color:var(--text3);font-weight:400}
+.add-btn{width:38px;height:38px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;color:#fff;font-size:1.4rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;transition:all .15s;box-shadow:0 2px 7px var(--accent-g)}
+.add-btn:active{transform:scale(.9)}
+
+/* CAT CHIPS */
+.cat-chips{display:none;align-items:center;gap:6px;padding:0 13px 10px;flex-wrap:wrap}
+.cat-chips.visible{display:flex}
+.cat-label{font-size:.58rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;flex-shrink:0}
+.cat-chip{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;border:1.5px solid;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .15s;-webkit-user-select:none;user-select:none;touch-action:manipulation;opacity:.4}
+.cat-chip.selected{opacity:1;transform:scale(1.06)}
+.cat-chip:active{transform:scale(.92)}
+/* spesa */
+.cat-chip.box{border-color:#7eaadc;color:#7eaadc}.cat-chip.milk{border-color:#e2b96a;color:#e2b96a}.cat-chip.apple{border-color:#6aaa82;color:#6aaa82}.cat-chip.farmacia{border-color:#d4768a;color:#d4768a}.cat-chip.casa{border-color:#9b72c8;color:#9b72c8}
+.cat-chip.box.selected{background:rgba(126,170,220,.14)}.cat-chip.milk.selected{background:rgba(226,185,106,.14)}.cat-chip.apple.selected{background:rgba(106,170,130,.14)}.cat-chip.farmacia.selected{background:rgba(212,118,138,.14)}.cat-chip.casa.selected{background:rgba(155,114,200,.14)}
+/* film */
+.cat-chip.netflix{border-color:#e50914;color:#e50914}.cat-chip.prime{border-color:#00a8e0;color:#00a8e0}.cat-chip.disney{border-color:#00b4b4;color:#00b4b4}.cat-chip.pirata{border-color:#888;color:#888}.cat-chip.raiplay{border-color:#c8a800;color:#c8a800}
+.cat-chip.netflix.selected{background:rgba(229,9,20,.12)}.cat-chip.prime.selected{background:rgba(0,168,224,.12)}.cat-chip.disney.selected{background:rgba(0,180,180,.12)}.cat-chip.pirata.selected{background:rgba(100,100,100,.12)}.cat-chip.raiplay.selected{background:rgba(200,168,0,.12)}
+/* ale categories */
+.cat-chip.ale-red{border-color:#e05555;color:#e05555}.cat-chip.ale-red.selected{background:rgba(224,85,85,.13)}
+.cat-chip.ale-yellow{border-color:#d4a017;color:#d4a017}.cat-chip.ale-yellow.selected{background:rgba(212,160,23,.13)}
+.cat-chip.ale-blue{border-color:#5a82c8;color:#5a82c8}.cat-chip.ale-blue.selected{background:rgba(90,130,200,.13)}
+.cat-chip.ale-green{border-color:#6aaa82;color:#6aaa82}.cat-chip.ale-green.selected{background:rgba(106,170,130,.13)}
+/* ale card */
+.ale-card{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:11px;box-shadow:var(--shadow);animation:slideIn .2s ease;position:relative;overflow:hidden}
+.ale-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;background:transparent}
+.ale-card.ale-cat-red::before{background:#e05555}
+.ale-card.ale-cat-yellow::before{background:#d4a017}
+.ale-card.ale-cat-blue::before{background:#5a82c8}
+.ale-card.ale-cat-green::before{background:#6aaa82}
+.ale-card.ale-cat-vestiti::before{background:#e07bb5}
+.ale-card.ale-cat-istruzione::before{background:#5a82c8}
+.ale-card.ale-cat-giochi::before{background:#9b59b6}
+.ale-card.ale-cat-attivita::before{background:#e67e22}
+.ale-card.ale-cat-varie::before{background:#6aaa82}
+.ale-card-body{flex:1;min-width:0}
+.ale-card-name{font-size:.86rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ale-card-date{font-size:.54rem;font-weight:600;color:var(--text3);margin-top:2px}
+/* ALE new cat chips */
+.cat-chip.ale-vestiti{border-color:#e07bb5;color:#e07bb5}.cat-chip.ale-vestiti.selected{background:rgba(224,123,181,.13)}
+.cat-chip.ale-istruzione{border-color:#5a82c8;color:#5a82c8}.cat-chip.ale-istruzione.selected{background:rgba(90,130,200,.13)}
+.cat-chip.ale-giochi{border-color:#9b59b6;color:#9b59b6}.cat-chip.ale-giochi.selected{background:rgba(155,89,182,.13)}
+.cat-chip.ale-attivita{border-color:#e67e22;color:#e67e22}.cat-chip.ale-attivita.selected{background:rgba(230,126,34,.13)}
+.cat-chip.ale-varie{border-color:#6aaa82;color:#6aaa82}.cat-chip.ale-varie.selected{background:rgba(106,170,130,.13)}
+/* ristoranti category chips */
+.cat-chip.rist-regionale{border-color:#e05555;color:#e05555}.cat-chip.rist-regionale.selected{background:rgba(224,85,85,.13)}
+.cat-chip.rist-etnico{border-color:#d4a017;color:#d4a017}.cat-chip.rist-etnico.selected{background:rgba(212,160,23,.13)}
+.cat-chip.rist-pizza{border-color:#e67e22;color:#e67e22}.cat-chip.rist-pizza.selected{background:rgba(230,126,34,.13)}
+.cat-chip.rist-agriturismo{border-color:#6aaa82;color:#6aaa82}.cat-chip.rist-agriturismo.selected{background:rgba(106,170,130,.13)}
+.cat-chip.rist-altro-tip{border-color:#8240bb;color:#8240bb}.cat-chip.rist-altro-tip.selected{background:rgba(130,64,187,.13)}
+.cat-chip.rist-provincia{border-color:#5a82c8;color:#5a82c8}.cat-chip.rist-provincia.selected{background:rgba(90,130,200,.13)}
+.cat-chip.rist-milano{border-color:#08595e;color:#08595e}.cat-chip.rist-milano.selected{background:rgba(8,89,94,.13)}
+.cat-chip.rist-altra-zona{border-color:#999;color:#999}.cat-chip.rist-altra-zona.selected{background:rgba(150,150,150,.13)}
+.rist-tag{display:inline-block;font-size:.5rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;padding:1px 6px;border-radius:8px;margin:2px 3px 0 0;white-space:nowrap}
+.rist-card-tags{display:flex;flex-wrap:wrap;margin-top:2px}
+
+/* SECTION LABELS */
+.section-label{padding:10px 10px 6px;font-size:.58rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:7px;position:relative;z-index:1;-webkit-user-select:none;user-select:none}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.collapsible-header{padding:14px 16px 7px;font-size:.6rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation;position:relative;z-index:1}
+.collapsible-header::after{content:'';flex:1;height:1px;background:var(--border)}
+.badge{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1px 7px;font-size:.58rem;font-weight:700;color:var(--text2);box-shadow:var(--shadow)}
+.arrow{font-size:.5rem;color:var(--text3);transition:transform .22s}
+.arrow.up{transform:rotate(180deg)}
+
+/* ALTRO */
+.altro-wrap{margin:0 16px;position:relative;z-index:1}
+.altro-inner{background:rgba(212,118,138,.04);border:1px solid rgba(212,118,138,.15);border-radius:var(--r);overflow:hidden}
+.altro-section-hd{padding:10px 9px 6px;font-size:.58rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:7px}
+.altro-section-hd::after{content:'';flex:1;height:1px;background:rgba(212,118,138,.15)}
+.altro-inner .list-wrap{padding:0 10px}
+.altro-done-hd{padding:8px 14px 6px;font-size:.58rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:7px;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.altro-done-hd::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* LIST */
+.list-wrap{display:flex;flex-direction:column;gap:4px;padding:0 16px}
+
+/* SPESA ITEM */
+.item{display:flex;align-items:center;gap:9px;padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:11px;box-shadow:var(--shadow);animation:slideIn .2s ease;position:relative;overflow:hidden}
+@keyframes slideIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;background:transparent;transition:background .2s}
+.item.has-cat-box::before{background:#7eaadc}.item.has-cat-milk::before{background:#e2b96a}.item.has-cat-apple::before{background:#6aaa82}.item.has-cat-farmacia::before{background:#d4768a}.item.has-cat-casa::before{background:#9b72c8}
+.item.done{background:var(--card2);border-color:var(--border);box-shadow:none;opacity:.68}
+.item-body{flex:1;min-width:0;cursor:pointer}
+.item-name-row{display:flex;align-items:center;gap:6px}
+.cat-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.item-name{font-size:.88rem;font-weight:600;color:var(--text);transition:color .25s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item.done .item-name{color:var(--done-txt);text-decoration:line-through;text-decoration-color:var(--text3);font-weight:500}
+.item-actions{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.act-btn{width:26px;height:26px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation;transition:all .15s;-webkit-user-select:none}
+.act-btn svg{width:12px;height:12px}
+.edit-btn{background:rgba(106,170,130,.12);color:#559970}
+.edit-btn:active{opacity:.7;transform:scale(.88)}
+.del-btn{background:rgba(220,100,100,.09);color:#c07878}
+.del-btn:active{background:rgba(220,100,100,.2);transform:scale(.88)}
+body.film-active .edit-btn{background:rgba(90,130,200,.12);color:#4068b0}
+.done-header{display:flex;align-items:center;gap:8px;padding:12px 16px 7px;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation;position:relative;z-index:1}
+.done-header-label{font-size:.6rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:7px}
+.done-header::after{content:'';flex:1;height:1px;background:var(--border)}
+.empty{text-align:center;padding:20px 16px;color:var(--text3);font-style:italic;font-size:.82rem;background:var(--card);border:1px dashed var(--border);border-radius:var(--r)}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;z-index:50;background:rgba(45,66,51,.18);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);align-items:flex-end;justify-content:center}
+.modal-bg.open{display:flex}
+body.film-active .modal-bg{background:rgba(20,40,80,.18)}
+body.settings-active .modal-bg{background:rgba(0,0,0,.45)}
+.edit-modal{background:var(--card);border-radius:20px 20px 0 0;padding:18px 18px 34px;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(45,66,51,.15);display:flex;flex-direction:column;gap:12px;animation:slideUp .24s ease}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
+.edit-modal-title{font-size:.67rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+.edit-modal-input{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rs);padding:11px 13px;font-family:'Quicksand',sans-serif;font-size:.95rem;font-weight:600;color:var(--text);outline:none;-webkit-appearance:none;width:100%}
+.edit-modal-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-s)}
+.edit-modal-cats{display:flex;gap:7px;flex-wrap:wrap}
+.edit-modal-actions{display:flex;gap:8px}
+.btn-modal-save{flex:1;height:42px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:var(--rs);font-family:'Quicksand',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;box-shadow:0 2px 8px var(--accent-g)}
+.btn-modal-cancel{height:42px;padding:0 16px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rs);font-family:'Quicksand',sans-serif;font-size:.82rem;font-weight:700;color:var(--text2);cursor:pointer;touch-action:manipulation}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--text);color:#fff;padding:10px 18px;border-radius:50px;font-size:.78rem;font-weight:700;opacity:0;transition:all .24s ease;z-index:200;white-space:nowrap;box-shadow:0 8px 28px rgba(45,66,51,.22);pointer-events:none;letter-spacing:.02em}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{background:var(--accent2)}.toast.err{background:#c07878}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ═══ COLUMNS LAYOUT ═══ */
+.columns{display:flex;align-items:stretch;position:relative;z-index:1;min-height:80px}
+.col-main{width:50%;flex-shrink:0;min-width:0;border-right:1px solid var(--border);transition:width .32s cubic-bezier(.4,0,.2,1)}
+.col-altro{flex:1;min-width:0;transition:flex .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1)}
+
+/* Slim tabs: 15% wide (10% more than before) for easier tapping */
+.col-main.slim{width:15%;flex-shrink:0;min-width:36px}
+.col-altro.slim{flex:0 0 15%;min-width:36px}
+.col-main.slim + .col-altro{flex:1}
+.col-main.solo{width:85%}
+.col-altro.solo{flex:1}
+
+.col-main .section-label,.col-main .done-header{padding-left:10px;padding-right:8px}
+.col-main .list-wrap{padding-left:8px;padding-right:8px}
+.col-altro .collapsible-header{padding-left:9px;padding-right:6px;font-size:.56rem}
+.col-altro .altro-wrap{margin:0}
+.col-altro .altro-inner{border-radius:0;border:none;background:rgba(212,118,138,.03)}
+.col-altro .altro-section-hd,.col-altro .altro-done-hd{padding-left:9px;padding-right:6px;font-size:.56rem}
+.col-altro .altro-inner .list-wrap,.col-altro .list-wrap{padding-left:7px;padding-right:7px}
+.col-tab{display:none;writing-mode:vertical-rl;text-orientation:mixed;padding:14px 0;cursor:pointer;font-size:.55rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.12em;align-items:center;justify-content:flex-start;-webkit-user-select:none;user-select:none;touch-action:manipulation;width:100%;min-height:80px}
+.col-main .col-tab{border-right:1px solid var(--border);background:var(--bg2)}
+.col-altro .col-tab{border-left:1px solid var(--border);background:var(--bg2)}
+.col-main.slim .col-tab,.col-altro.slim .col-tab{display:flex}
+.col-main.slim .col-main-inner,.col-altro.slim .col-altro-inner{display:none}
+.col-altro:not(.slim) .collapsible-header{writing-mode:horizontal-tb;text-orientation:initial;padding:14px 9px 7px;height:auto;min-height:unset;border-left:none;display:flex}
+.col-altro:not(.slim) .collapsible-header::after{content:'';flex:1;height:1px;background:var(--border)}
+.col-altro.slim .collapsible-header{display:none}
+.col-altro:not(.slim) .item-name{white-space:normal;word-break:break-word;font-size:.8rem}
+.col-main:not(.slim) .item-name{font-size:.84rem}
+
+/* ═══ FILM SECTION ═══ */
+#sectionFilm{display:none;position:relative;z-index:1}
+#sectionSpesa{display:block}
+#sectionSettings{display:none;position:relative;z-index:1;padding:16px}
+
+.film-section-main-hd{padding:12px 16px 7px;font-size:.62rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:7px}
+.film-section-main-hd::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Film item */
+.film-card{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:11px;box-shadow:var(--shadow);animation:slideIn .2s ease;position:relative;overflow:hidden;cursor:pointer;transition:opacity .2s}
+.film-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;background:transparent;transition:background .2s}
+.film-card.has-cat-netflix::before{background:#e50914}
+.film-card.has-cat-prime::before{background:#00a8e0}
+.film-card.has-cat-disney::before{background:#00b4b4}
+.film-card.has-cat-pirata::before{background:#888}
+.film-card.has-cat-raiplay::before{background:#c8a800}
+/* Persona bar overrides service bar */
+.film-card.persona-nico::before{background:#3b82f6}
+.film-card.persona-ila::before{background:#8b5cf6}
+/* Persona chips */
+.cat-chip.nico{border-color:#3b82f6;color:#3b82f6}.cat-chip.nico.selected{background:rgba(59,130,246,.13)}
+.cat-chip.ila{border-color:#8b5cf6;color:#8b5cf6}.cat-chip.ila.selected{background:rgba(139,92,246,.13)}
+.film-card.in-visto{opacity:.58}
+.film-card.in-visto .film-card-name{color:var(--done-txt);text-decoration:line-through;text-decoration-color:var(--text3)}
+
+/* Two flags on same row */
+.film-flags{display:flex;flex-direction:row;gap:5px;flex-shrink:0;align-items:center}
+.film-flag{
+  width:44px;height:36px;border-radius:7px;
+  border:1.5px solid var(--border2);background:var(--card2);
+  cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;position:relative;overflow:hidden;
+  flex-shrink:0;
+}
+.film-flag:active{transform:scale(.88)}
+.film-flag .flag-txt{font-size:.47rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;text-align:center;line-height:1.2;color:var(--text3);display:block}
+.film-flag .flag-chk{display:none;width:14px;height:14px}
+/* checked state */
+.film-flag.flag-dwnld{border-color:rgba(90,130,200,.4)}
+.film-flag.flag-dwnld.checked{background:rgba(90,130,200,.16);border-color:#5a82c8}
+.film-flag.flag-dwnld.checked .flag-txt{display:none}
+.film-flag.flag-dwnld.checked .flag-chk{display:block;stroke:#5a82c8}
+.film-flag.flag-nd{border-color:rgba(224,160,80,.4)}
+.film-flag.flag-nd.checked{background:rgba(224,160,80,.16);border-color:#e0a050}
+.film-flag.flag-nd.checked .flag-txt{display:none}
+.film-flag.flag-nd.checked .flag-chk{display:block;stroke:#e0a050}
+
+/* Film item body */
+.film-card-body{flex:1;min-width:0}
+.film-card-name{font-size:.86rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .25s}
+.film-card-cat{font-size:.6rem;font-weight:700;margin-top:2px;text-transform:uppercase;letter-spacing:.04em;opacity:.85}
+
+/* Film sub-sections */
+.film-sub-box{margin:0 16px 10px;background:var(--card2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.film-sub-hd{padding:9px 12px 6px;font-size:.58rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:7px;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.film-sub-hd::after{content:'';flex:1;height:1px;background:var(--border)}
+.film-sub-box .list-wrap{padding:0 10px 10px}
+.film-sub-hd.scaricato-hd{color:#5a82c8}
+.film-sub-hd.visto-hd{color:#40a870}
+
+/* ═══ RISTORANTI SECTION ═══ */
+#sectionRistoranti{display:none;position:relative;z-index:1}
+body.ristoranti-active .add-area{background:rgba(253,251,239,.95)}
+body.ristoranti-active .toolbar-right{background:rgba(241,199,4,0.10)}
+body.ristoranti-active .logo-icon{background:#f1c704;box-shadow:0 2px 8px rgba(241,199,4,.28)}
+body.ristoranti-active .btn-refresh-big{background:#f1c704;border-color:#c9a200;box-shadow:0 2px 8px rgba(241,199,4,.22)}
+body.ristoranti-active .add-btn{background:#f1c704;box-shadow:0 2px 7px rgba(241,199,4,.28)}
+
+.rist-section-hd{padding:12px 16px 7px;font-size:.62rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:7px}
+.rist-section-hd::after{content:'';flex:1;height:1px;background:var(--border)}
+.rist-section-hd.andati-hd{color:#7c6030;margin-top:4px}
+
+/* Restaurant card */
+.rist-card{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:11px;box-shadow:var(--shadow);animation:slideIn .2s ease;position:relative;overflow:hidden;transition:all .2s}
+.rist-card.in-andati{border-color:var(--accent);border-left:3px solid var(--accent)}
+
+/* Thumbs */
+.rist-thumbs{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.rist-thumb{width:36px;height:30px;border-radius:7px;border:1.5px solid var(--border2);background:var(--card2);cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none;display:flex;align-items:center;justify-content:center;font-size:.88rem;transition:all .15s;opacity:.38}
+.rist-thumb:active{transform:scale(.88)}
+.rist-thumb.selected{opacity:1;border-width:2px}
+.rist-thumb.up.selected{background:rgba(80,180,100,.14);border-color:#50b464}
+.rist-thumb.down.selected{background:rgba(210,80,80,.12);border-color:#d05050}
+.rist-thumb.dimmed{opacity:.18}
+
+/* Card body */
+.rist-card-body{flex:1;min-width:0}
+.rist-card-name{font-size:.86rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .25s}
+.rist-card-date{font-size:.56rem;font-weight:600;color:var(--text3);margin-top:3px;letter-spacing:.02em}
+.rist-card-via{font-size:.58rem;font-weight:500;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.75;display:flex;align-items:center;gap:3px}
+.rist-card-via::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;opacity:.7}
+
+/* Maps button */
+.maps-btn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border2);background:var(--card2);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none;transition:all .15s;touch-action:manipulation}
+.maps-btn:active{transform:scale(.88)}
+.maps-btn svg{width:14px;height:14px;color:var(--text2)}
+.maps-btn.has-link{border-color:#f1c704;background:rgba(241,199,4,.12)}
+.maps-btn.has-link svg{color:#c9a200}
+
+/* ristoranti category chips */body.ristoranti-active #addRistoranti .add-box{overflow:visible}
+
+/* ═══ SETTINGS SECTION ═══ */
+.settings-title{font-family:'Lora',serif;font-size:1.05rem;font-weight:500;color:var(--text);margin-bottom:18px;line-height:1.35}
+.settings-title em{font-style:italic;color:var(--accent2)}
+.settings-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:11px}
+.settings-card-title{font-size:.68rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em}
+.settings-input{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:var(--rs);padding:10px 12px;font-family:'Quicksand',sans-serif;font-size:.83rem;color:var(--text);outline:none;-webkit-appearance:none}
+.settings-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-s)}
+.settings-input::placeholder{color:var(--text3)}
+.settings-row{display:flex;gap:8px}
+.btn-cfg{height:38px;padding:0 14px;font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;border-radius:var(--rs);font-weight:700;cursor:pointer;border:1px solid transparent;font-family:'Quicksand',sans-serif;touch-action:manipulation;flex:1}
+.btn-cfg-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.btn-cfg-secondary{background:var(--bg2);color:var(--text2);border-color:var(--border2)}
+.cfg-note{font-size:.64rem;color:var(--text3);line-height:1.6;word-break:break-all}
+</style>
+</head>
+<body>
+
+<!-- OVERLAY + DRAWER -->
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="menu-drawer" id="menuDrawer">
+  <div class="menu-drawer-header">
+    <div class="menu-drawer-panda">🐼</div>
+    <div>
+      <div class="menu-drawer-title">Panda <em>Squad</em></div>
+      <div class="menu-drawer-sub">Memo Famiglia</div>
+    </div>
+  </div>
+  <nav class="menu-nav">
+    <button class="menu-item spesa-item active" id="menuItemSpesa" onclick="switchSection('spesa')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.74L23 6H6"/>
+      </svg>
+      Spesa
+    </button>
+    <button class="menu-item film-item" id="menuItemFilm" onclick="switchSection('film')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="2.18"/>
+        <line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/>
+        <line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/>
+      </svg>
+      Film
+    </button>
+    <button class="menu-item ristoranti-item" id="menuItemRistoranti" onclick="switchSection('ristoranti')">
+      <i data-lucide="utensils" style="width:17px;height:17px;flex-shrink:0;opacity:.55" class="rist-lucide-icon"></i>
+      Ristoranti
+    </button>
+    <button class="menu-item viaggi-item" id="menuItemViaggi" onclick="switchSection('viaggi')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      Viaggi
+    </button>
+    <button class="menu-item ale-item" id="menuItemAle" onclick="switchSection('ale')">
+      <!-- baby / newborn minimal SVG -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="12" cy="6" r="3"/>
+        <path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
+        <path d="M9 6.5c0 0-.5 1.5 0 3" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M15 6.5c0 0 .5 1.5 0 3" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      Ale
+    </button>
+    <button class="menu-item memo-item" id="menuItemMemo" onclick="switchSection('memo')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+        <line x1="9" y1="7" x2="15" y2="7" stroke-width="1.4"/>
+        <line x1="9" y1="11" x2="15" y2="11" stroke-width="1.4"/>
+      </svg>
+      Memo
+    </button>
+    <div class="menu-divider"></div>
+    <button class="menu-item sett-item" id="menuItemSettings" onclick="switchSection('settings')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+      Impostazioni
+    </button>
+  </nav>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="logo">
+        <div class="logo-icon" id="headerIcon">🦛</div>
+        <div>
+          <div class="logo-name" id="headerTitle">Spesa da <em>Ippopotami</em></div>
+          <div class="logo-sub" id="headerSub">Lista condivisa</div>
+        </div>
+      </div>
+    </div>
+    <div class="sync-pill" id="syncPill">
+      <div class="dot" id="syncDot"></div>
+      <span id="syncLabel">—</span>
+    </div>
+  </div>
+
+  <!-- Toolbar SPESA -->
+  <div class="toolbar" id="toolbarSpesa">
+    <div class="toolbar-left">
+      <button class="btn btn-refresh-big" onclick="loadList()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/>
+        </svg>
+        Aggiorna
+      </button>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-icon" id="btnAZ"  onclick="sortAlpha()"      title="A→Z">AZ</button>
+      <button class="btn btn-icon" id="btnCat" onclick="sortByCategory()" title="Per categoria">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toolbar FILM -->
+  <div class="toolbar" id="toolbarFilm" style="display:none">
+    <div class="toolbar-left">
+      <button class="btn btn-refresh-big" onclick="saveFilmList()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/>
+        </svg>
+        Aggiorna
+      </button>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-icon" id="btnFilmDisp"    onclick="sortFilmByDisp()"    title="Disponibile prima" style="font-size:.55rem;letter-spacing:-.01em">DISP</button>
+      <button class="btn btn-icon" id="btnFilmPersona" onclick="sortFilmByPersona()" title="Per Nico / Ila" style="font-size:.52rem;letter-spacing:-.01em">N/I</button>
+    </div>
+  </div>
+
+  <!-- Toolbar RISTORANTI -->
+  <div class="toolbar" id="toolbarRistoranti" style="display:none">
+    <div class="toolbar-left">
+      <button class="btn btn-refresh-big" onclick="saveRistList()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/>
+        </svg>
+        Aggiorna
+      </button>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-icon" id="btnRistAZ"   onclick="sortRistByZona()" title="Per zona" style="font-size:.62rem;letter-spacing:.02em">ZONA</button>
+      <button class="btn btn-icon" id="btnRistData" onclick="sortRistByTipo()" title="Per tipologia">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toolbar ALE -->
+  <div class="toolbar" id="toolbarAle" style="display:none">
+    <div class="toolbar-left">
+      <button class="btn btn-refresh-big" onclick="saveAleList()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/>
+        </svg>
+        Aggiorna
+      </button>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-icon" id="btnAleAZ"   onclick="sortAleByDate()" title="Per data" style="font-size:.62rem;letter-spacing:.02em">DATA</button>
+      <button class="btn btn-icon" id="btnAleData" onclick="sortAleByCat()" title="Per categoria">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toolbar MEMO -->
+  <div class="toolbar" id="toolbarMemo" style="display:none">
+    <div class="toolbar-left">
+      <button class="btn btn-refresh-big" onclick="saveMemoList()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/>
+        </svg>
+        Aggiorna
+      </button>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-icon" id="btnMemoAZ"   onclick="sortMemoAlpha()" title="A→Z">AZ</button>
+      <button class="btn btn-icon" id="btnMemoData" onclick="sortMemoByDate()" title="Data inserimento">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- Toolbar VIAGGI -->
+  <div class="toolbar" id="toolbarViaggi" style="display:none">
+    <div class="toolbar-left">
+      <button class="btn btn-refresh-big" onclick="saveViaggiList()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-3.1"/>
+        </svg>
+        Aggiorna
+      </button>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn btn-icon" id="btnViaggiAZ"   onclick="sortViaggiByDate()" title="Per data" style="font-size:.62rem;letter-spacing:.02em">DATA</button>
+      <button class="btn btn-icon" id="btnViaggiData" onclick="sortViaggiByCategoria()" title="Per categoria">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD AREA -->
+<div class="add-area" id="addArea">
+  <div id="addSpesa">
+    <div class="add-box">
+      <div class="add-row">
+        <input class="add-input" id="newItemInput" placeholder="Aggiungi un articolo…" maxlength="120"
+          oninput="onTyping()" onkeydown="if(event.key==='Enter'){event.preventDefault();addItem()}">
+        <button class="add-btn" onclick="addItem()">+</button>
+      </div>
+      <div class="cat-chips" id="catChips">
+        <span class="cat-label">Cat:</span>
+        <div class="cat-chip box"      id="chip-box"      onclick="selectCat('box')">📦 Non food</div>
+        <div class="cat-chip milk"     id="chip-milk"     onclick="selectCat('milk')">🥛 Freschissimi</div>
+        <div class="cat-chip apple"    id="chip-apple"    onclick="selectCat('apple')">🍎 Ortofrutta</div>
+        <div class="cat-chip farmacia" id="chip-farmacia" onclick="selectCat('farmacia')">💊 Farmacia</div>
+        <div class="cat-chip casa"     id="chip-casa"     onclick="selectCat('casa')">🏠 Casa</div>
+      </div>
+    </div>
+  </div>
+  <div id="addFilm" style="display:none">
+    <div class="add-box">
+      <div class="add-row">
+        <input class="add-input" id="newFilmInput" placeholder="Aggiungi un film…" maxlength="120"
+          oninput="onFilmTyping()" onkeydown="if(event.key==='Enter'){event.preventDefault();addFilm()}">
+        <button class="add-btn" onclick="addFilm()">+</button>
+      </div>
+      <div class="cat-chips" id="filmCatChips">
+        <span class="cat-label">Dove:</span>
+        <div class="cat-chip netflix" id="fchip-netflix" onclick="selectFilmCat('netflix')">🔴 Netflix</div>
+        <div class="cat-chip prime"   id="fchip-prime"   onclick="selectFilmCat('prime')">🔵 Prime</div>
+        <div class="cat-chip disney"  id="fchip-disney"  onclick="selectFilmCat('disney')">🟢 Disney</div>
+        <div class="cat-chip pirata"  id="fchip-pirata"  onclick="selectFilmCat('pirata')">☠ Pirata</div>
+        <div class="cat-chip raiplay" id="fchip-raiplay" onclick="selectFilmCat('raiplay')">📺 Rai Play</div>
+      </div>
+      <div class="cat-chips" id="filmPersonaChips" style="padding-top:0">
+        <span class="cat-label">Per:</span>
+        <div class="cat-chip nico" id="fpchip-nico" onclick="selectFilmPersona('nico')">🔵 Nico</div>
+        <div class="cat-chip ila"  id="fpchip-ila"  onclick="selectFilmPersona('ila')">🟣 Ila</div>
+      </div>
+    </div>
+  </div>
+  <div id="addRistoranti" style="display:none">
+    <div class="add-box">
+      <div class="add-row">
+        <input class="add-input" id="newRistInput" placeholder="Nome del ristorante…" maxlength="120"
+          oninput="onRistTyping()" onkeydown="if(event.key==='Enter'){event.preventDefault();addRistManual()}" autocomplete="off">
+        <button class="add-btn" onclick="addRistManual()">+</button>
+      </div>
+      <div class="cat-chips" id="ristTipChips">
+        <span class="cat-label">Tipo:</span>
+        <div class="cat-chip rist-regionale"  id="rtchip-regionale"  onclick="selectRistTip('regionale')">🍝 Regionale</div>
+        <div class="cat-chip rist-etnico"     id="rtchip-etnico"     onclick="selectRistTip('etnico')">🌍 Etnico</div>
+        <div class="cat-chip rist-pizza"      id="rtchip-pizza"      onclick="selectRistTip('pizza')">🍕 Pizza</div>
+        <div class="cat-chip rist-agriturismo" id="rtchip-agriturismo" onclick="selectRistTip('agriturismo')">🌾 Agriturismo</div>
+        <div class="cat-chip rist-altro-tip"  id="rtchip-altro"      onclick="selectRistTip('altro')">⭐ Altro</div>
+      </div>
+      <div class="cat-chips" id="ristZonaChips">
+        <span class="cat-label">Zona:</span>
+        <div class="cat-chip rist-provincia"  id="rzchip-provincia"  onclick="selectRistZona('provincia')">🗺️ Provincia</div>
+        <div class="cat-chip rist-milano"     id="rzchip-milano"     onclick="selectRistZona('milano')">🏙️ Milano</div>
+        <div class="cat-chip rist-altra-zona" id="rzchip-altra"      onclick="selectRistZona('altra')">📍 Altro</div>
+      </div>
+    </div>
+  </div>
+  <div id="addAle" style="display:none">
+    <div class="add-box">
+      <div class="add-row">
+        <input class="add-input" id="newAleInput" placeholder="Aggiungi un articolo…" maxlength="120"
+          oninput="onAleTyping()"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();addAleItem()}">
+        <button class="add-btn" onclick="addAleItem()">+</button>
+      </div>
+      <div class="cat-chips" id="aleCatChips">
+        <span class="cat-label">Cat:</span>
+        <div class="cat-chip ale-vestiti"   id="achip-vestiti"   onclick="selectAleCat('vestiti')">👗 Vestiti</div>
+        <div class="cat-chip ale-istruzione" id="achip-istruzione" onclick="selectAleCat('istruzione')">📚 Istruzione</div>
+        <div class="cat-chip ale-giochi"    id="achip-giochi"    onclick="selectAleCat('giochi')">🎮 Giochi</div>
+        <div class="cat-chip ale-attivita"  id="achip-attivita"  onclick="selectAleCat('attivita')">🏃 Attività</div>
+        <div class="cat-chip ale-varie"     id="achip-varie"     onclick="selectAleCat('varie')">🎁 Varie</div>
+      </div>
+    </div>
+  </div>
+  <div id="addMemo" style="display:none">
+    <div class="add-box">
+      <div class="add-row">
+        <input class="add-input" id="newMemoInput" placeholder="Aggiungi un memo…" maxlength="120"
+          oninput="onMemoTyping()"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();addMemoItem()}">
+        <button class="add-btn" onclick="addMemoItem()">+</button>
+      </div>
+      <div class="cat-chips" id="memoCatChips">
+        <span class="cat-label">Cat:</span>
+        <div class="cat-chip ale-red"    id="mchip-red"    onclick="selectMemoCat('red')">🔴 Rossa</div>
+        <div class="cat-chip ale-yellow" id="mchip-yellow" onclick="selectMemoCat('yellow')">🟡 Gialla</div>
+        <div class="cat-chip ale-blue"   id="mchip-blue"   onclick="selectMemoCat('blue')">🔵 Blu</div>
+        <div class="cat-chip ale-green"  id="mchip-green"  onclick="selectMemoCat('green')">🟢 Verde</div>
+      </div>
+    </div>
+  </div>
+  <div id="addViaggi" style="display:none">
+    <div class="add-box">
+      <div class="add-row">
+        <input class="add-input" id="newViaggiInput" placeholder="Aggiungi una meta…" maxlength="120"
+          oninput="onViaggiTyping()"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();addViaggiItem()}">
+        <button class="add-btn" onclick="addViaggiItem()">+</button>
+      </div>
+      <div class="cat-chips" id="viaggiCatChips">
+        <span class="cat-label">Cat:</span>
+        <div class="cat-chip ale-blue"   id="vchip-blue"   onclick="selectViaggiCat('blue')">🔵 In giornata</div>
+        <div class="cat-chip ale-green"  id="vchip-green"  onclick="selectViaggiCat('green')">🟢 Weekend</div>
+        <div class="cat-chip ale-yellow" id="vchip-yellow" onclick="selectViaggiCat('yellow')">🟡 Viaggio</div>
+        <div class="cat-chip ale-red"    id="vchip-red"    onclick="selectViaggiCat('red')">🔴 Attività x Ale</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION SPESA -->
+<div id="sectionSpesa">
+  <div class="columns" id="columnsWrap">
+    <div class="col-main" id="colMain">
+      <div class="col-tab" onclick="toggleMain()">Spesa</div>
+      <div class="col-main-inner">
+        <div class="collapsible-header" onclick="toggleMain()" style="border-right:none">
+          Spesa <span class="badge" id="mainCount">0</span>
+          <span class="arrow up" id="mainArrow">▼</span>
+        </div>
+        <div class="section-label">Da acquistare <span class="badge" id="activeCount">0</span></div>
+        <div class="list-wrap" id="activeList"></div>
+        <div class="done-header" onclick="toggleDone()">
+          <span class="done-header-label">Nel carrello <span class="badge" id="doneCount">0</span></span>
+          <span class="arrow up" id="doneArrow">▼</span>
+        </div>
+        <div id="doneWrap"><div class="list-wrap" id="doneList"></div></div>
+      </div>
+    </div>
+    <div class="col-altro open" id="colAltro">
+      <div class="col-tab" onclick="toggleAltro()">Altro</div>
+      <div class="col-altro-inner">
+        <div class="collapsible-header" onclick="toggleAltro()">
+          Altro <span class="badge" id="altroCount">0</span>
+          <span class="arrow up" id="altroArrow">▼</span>
+        </div>
+        <div id="altroWrap">
+          <div class="altro-wrap">
+            <div class="altro-inner">
+              <div class="altro-section-hd">Da acquistare <span class="badge" id="altroActiveCount">0</span></div>
+              <div class="list-wrap" id="altroActiveList"></div>
+              <div class="altro-done-hd" onclick="toggleAltroDone()">
+                Nel carrello <span class="badge" id="altroDoneCount">0</span>
+                <span class="arrow up" id="altroDoneArrow">▼</span>
+              </div>
+              <div id="altroDoneWrap">
+                <div class="list-wrap" id="altroDoneList" style="padding-bottom:10px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION FILM -->
+<div id="sectionFilm">
+  <div class="film-section-main-hd">🎬 Da vedere <span class="badge" id="filmDaVedereCount">0</span></div>
+  <div class="list-wrap" id="filmDaVedereList" style="padding-bottom:8px"></div>
+  <div class="film-sub-box">
+    <div class="film-sub-hd scaricato-hd" onclick="toggleFilmSub('scaricato')">
+      ⬇ Scaricato <span class="badge" id="filmScaricatoCount">0</span>
+      <span class="arrow up" id="filmScaricatoArrow">▼</span>
+    </div>
+    <div id="filmScaricatoWrap"><div class="list-wrap" id="filmScaricatoList" style="padding-bottom:4px"></div></div>
+  </div>
+  <div class="film-sub-box">
+    <div class="film-sub-hd visto-hd" onclick="toggleFilmSub('visto')">
+      ✅ Visto <span class="badge" id="filmVistoCount">0</span>
+      <span class="arrow up" id="filmVistoArrow">▼</span>
+    </div>
+    <div id="filmVistoWrap"><div class="list-wrap" id="filmVistoList" style="padding-bottom:4px"></div></div>
+  </div>
+</div>
+
+<!-- SECTION RISTORANTI -->
+<div id="sectionRistoranti">
+  <div class="rist-section-hd">🍽 Posti in cui andare a mangiare <span class="badge" id="ristAndareCount">0</span></div>
+  <div class="list-wrap" id="ristAndareList" style="padding-bottom:8px"></div>
+  <div class="film-sub-box" style="margin-top:4px">
+    <div class="film-sub-hd visto-hd" onclick="toggleRistSub()">
+      ✅ Ci siamo andati <span class="badge" id="ristAndatiCount">0</span>
+      <span class="arrow up" id="ristAndatiArrow">▼</span>
+    </div>
+    <div id="ristAndatiWrap"><div class="list-wrap" id="ristAndatiList" style="padding-bottom:4px"></div></div>
+  </div>
+</div>
+
+<!-- SECTION IMPOSTAZIONI -->
+<div id="sectionSettings">
+  <div class="settings-title">⚙ Impostazioni degli <em>Smanettoni</em></div>
+  <div class="settings-card">
+    <div class="settings-card-title">🔗 Connessione JSONBin</div>
+    <input class="settings-input" id="apiKeyInput" placeholder="X-Master-Key (API Key)" type="password" autocomplete="off">
+    <input class="settings-input" id="binIdInput"  placeholder="Bin ID (lascia vuoto → crea nuovo)">
+    <div class="settings-row">
+      <button class="btn-cfg btn-cfg-primary"   onclick="saveConfig()">Salva</button>
+      <button class="btn-cfg btn-cfg-secondary" onclick="createBin()">Crea Bin</button>
+    </div>
+    <div class="cfg-note" id="cfgNote">Inserisci la tua API Key e il Bin ID per sincronizzare la lista spesa tra dispositivi.</div>
+  </div>
+</div>
+
+<!-- SECTION ALE -->
+<div id="sectionAle" style="display:none;position:relative;z-index:1">
+  <div class="rist-section-hd" style="color:#be2d37">🦊 Lista di <em style="color:#961f28">Sandrino</em> <span class="badge" id="aleCount">0</span></div>
+  <div class="list-wrap" id="aleList" style="padding-bottom:8px"></div>
+</div>
+
+<!-- SECTION MEMO -->
+<div id="sectionMemo" style="display:none;position:relative;z-index:1">
+  <div class="rist-section-hd" style="color:#8240bb">🐘 Memoria da <em style="color:#6530a0">Elefanti</em> <span class="badge" id="memoCount">0</span></div>
+  <div class="list-wrap" id="memoList" style="padding-bottom:8px"></div>
+</div>
+
+<!-- SECTION VIAGGI -->
+<div id="sectionViaggi" style="display:none;position:relative;z-index:1">
+  <div class="rist-section-hd" style="color:#08595e">🍗 Weekend con <em style="color:#054548">Jumbologna</em> <span class="badge" id="viaggiCount">0</span></div>
+  <div class="list-wrap" id="viaggiList" style="padding-bottom:8px"></div>
+</div>
+
+<!-- EDIT MODAL SPESA -->
+<div class="modal-bg" id="editModal" onclick="closeEditModal(event)">
+  <div class="edit-modal" onclick="event.stopPropagation()">
+    <div class="edit-modal-title">✏ Modifica articolo</div>
+    <input class="edit-modal-input" id="editModalInput" maxlength="120"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();confirmEdit()}">
+    <div class="edit-modal-cats">
+      <span class="cat-label" style="align-self:center">Cat:</span>
+      <div class="cat-chip box"      id="eChip-box"      onclick="selectEditCat('box')">📦 Non food</div>
+      <div class="cat-chip milk"     id="eChip-milk"     onclick="selectEditCat('milk')">🥛 Freschissimi</div>
+      <div class="cat-chip apple"    id="eChip-apple"    onclick="selectEditCat('apple')">🍎 Ortofrutta</div>
+      <div class="cat-chip farmacia" id="eChip-farmacia" onclick="selectEditCat('farmacia')">💊 Farmacia</div>
+      <div class="cat-chip casa"     id="eChip-casa"     onclick="selectEditCat('casa')">🏠 Casa</div>
+    </div>
+    <div class="edit-modal-actions">
+      <button class="btn-modal-cancel" onclick="closeEditModal()">Annulla</button>
+      <button class="btn-modal-save"   onclick="confirmEdit()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL FILM -->
+<div class="modal-bg" id="editFilmModal" onclick="closeFilmEditModal(event)">
+  <div class="edit-modal" onclick="event.stopPropagation()">
+    <div class="edit-modal-title">🎬 Modifica film</div>
+    <input class="edit-modal-input" id="editFilmModalInput" maxlength="120"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();confirmFilmEdit()}">
+    <div class="edit-modal-cats">
+      <span class="cat-label" style="align-self:center">Dove:</span>
+      <div class="cat-chip netflix" id="eFchip-netflix" onclick="selectFilmEditCat('netflix')">🔴 Netflix</div>
+      <div class="cat-chip prime"   id="eFchip-prime"   onclick="selectFilmEditCat('prime')">🔵 Prime</div>
+      <div class="cat-chip disney"  id="eFchip-disney"  onclick="selectFilmEditCat('disney')">🟢 Disney</div>
+      <div class="cat-chip pirata"  id="eFchip-pirata"  onclick="selectFilmEditCat('pirata')">☠ Pirata</div>
+      <div class="cat-chip raiplay" id="eFchip-raiplay" onclick="selectFilmEditCat('raiplay')">📺 Rai Play</div>
+    </div>
+    <div class="edit-modal-cats">
+      <span class="cat-label" style="align-self:center">Per:</span>
+      <div class="cat-chip nico" id="eFpchip-nico" onclick="selectFilmEditPersona('nico')">🔵 Nico</div>
+      <div class="cat-chip ila"  id="eFpchip-ila"  onclick="selectFilmEditPersona('ila')">🟣 Ila</div>
+    </div>
+    <div class="edit-modal-actions">
+      <button class="btn-modal-cancel" onclick="closeFilmEditModal()">Annulla</button>
+      <button class="btn-modal-save"   onclick="confirmFilmEdit()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL ALE -->
+<div class="modal-bg" id="editAleModal" onclick="closeAleEditModal(event)">
+  <div class="edit-modal" onclick="event.stopPropagation()">
+    <div class="edit-modal-title">✏ Modifica articolo</div>
+    <input class="edit-modal-input" id="editAleModalInput" maxlength="120"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();confirmAleEdit()}">
+    <div class="edit-modal-cats">
+      <span class="cat-label" style="align-self:center">Cat:</span>
+      <div class="cat-chip ale-vestiti"    id="eAchip-vestiti"    onclick="selectAleEditCat('vestiti')">👗 Vestiti</div>
+      <div class="cat-chip ale-istruzione" id="eAchip-istruzione" onclick="selectAleEditCat('istruzione')">📚 Istruzione</div>
+      <div class="cat-chip ale-giochi"     id="eAchip-giochi"     onclick="selectAleEditCat('giochi')">🎮 Giochi</div>
+      <div class="cat-chip ale-attivita"   id="eAchip-attivita"   onclick="selectAleEditCat('attivita')">🏃 Attività</div>
+      <div class="cat-chip ale-varie"      id="eAchip-varie"      onclick="selectAleEditCat('varie')">🎁 Varie</div>
+    </div>
+    <div class="edit-modal-actions">
+      <button class="btn-modal-cancel" onclick="closeAleEditModal()">Annulla</button>
+      <button class="btn-modal-save"   onclick="confirmAleEdit()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL MEMO -->
+<div class="modal-bg" id="editMemoModal" onclick="closeMemoEditModal(event)">
+  <div class="edit-modal" onclick="event.stopPropagation()">
+    <div class="edit-modal-title">✏ Modifica memo</div>
+    <input class="edit-modal-input" id="editMemoModalInput" maxlength="120"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();confirmMemoEdit()}">
+    <div class="edit-modal-cats">
+      <span class="cat-label" style="align-self:center">Cat:</span>
+      <div class="cat-chip ale-red"    id="eMchip-red"    onclick="selectMemoEditCat('red')">🔴 Rossa</div>
+      <div class="cat-chip ale-yellow" id="eMchip-yellow" onclick="selectMemoEditCat('yellow')">🟡 Gialla</div>
+      <div class="cat-chip ale-blue"   id="eMchip-blue"   onclick="selectMemoEditCat('blue')">🔵 Blu</div>
+      <div class="cat-chip ale-green"  id="eMchip-green"  onclick="selectMemoEditCat('green')">🟢 Verde</div>
+    </div>
+    <div class="edit-modal-actions">
+      <button class="btn-modal-cancel" onclick="closeMemoEditModal()">Annulla</button>
+      <button class="btn-modal-save"   onclick="confirmMemoEdit()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL VIAGGI -->
+<div class="modal-bg" id="editViaggiModal" onclick="closeViaggiEditModal(event)">
+  <div class="edit-modal" onclick="event.stopPropagation()">
+    <div class="edit-modal-title">✏ Modifica meta</div>
+    <input class="edit-modal-input" id="editViaggiModalInput" maxlength="120"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();confirmViaggiEdit()}">
+    <div class="edit-modal-cats">
+      <span class="cat-label" style="align-self:center">Cat:</span>
+      <div class="cat-chip ale-blue"   id="eVchip-blue"   onclick="selectViaggiEditCat('blue')">🔵 In giornata</div>
+      <div class="cat-chip ale-green"  id="eVchip-green"  onclick="selectViaggiEditCat('green')">🟢 Weekend</div>
+      <div class="cat-chip ale-yellow" id="eVchip-yellow" onclick="selectViaggiEditCat('yellow')">🟡 Viaggio</div>
+      <div class="cat-chip ale-red"    id="eVchip-red"    onclick="selectViaggiEditCat('red')">🔴 Attività x Ale</div>
+    </div>
+    <div class="edit-modal-actions">
+      <button class="btn-modal-cancel" onclick="closeViaggiEditModal()">Annulla</button>
+      <button class="btn-modal-save"   onclick="confirmViaggiEdit()">Salva</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══ SPESA STATE ══ */
+let items=[],apiKey='',binId='';
+let doneOpen=true,mainOpen=true,altroOpen=true,altroDoneOpen=true;
+let newCat=null,sortMode=null,editingId=null,editingCat=null;
+const CAT_META={box:{emoji:'📦',label:'Non food',color:'#7eaadc'},milk:{emoji:'🥛',label:'Freschissimi',color:'#e2b96a'},apple:{emoji:'🍎',label:'Ortofrutta',color:'#6aaa82'},farmacia:{emoji:'💊',label:'Farmacia',color:'#d4768a'},casa:{emoji:'🏠',label:'Casa',color:'#9b72c8'}};
+const MAIN_CATS=['box','milk','apple'],ALTRO_CATS=['farmacia','casa'],MAIN_ORDER=['box','milk','apple'],ALTRO_ORDER=['farmacia','casa'];
+
+/* ══ FILM STATE ══ */
+let filmItems=[],newFilmCat=null,newFilmPersona=null,filmSortMode=null,filmEditingId=null,filmEditingCat=null,filmEditingPersona=null;
+let filmScaricatoOpen=true,filmVistoOpen=true;
+const FILM_CAT_META={netflix:{label:'Netflix',color:'#e50914'},prime:{label:'Prime',color:'#00a8e0'},disney:{label:'Disney',color:'#00b4b4'},pirata:{label:'Pirata',color:'#888888'},raiplay:{label:'Rai Play',color:'#c8a800'}};
+const FILM_CAT_ORDER=['netflix','prime','disney','pirata','raiplay'];
+const FILM_PERSONA_META={nico:{label:'Nico',color:'#3b82f6'},ila:{label:'Ila',color:'#8b5cf6'}};
+
+/* ══ ALE STATE ══ */
+let aleItems=[], aleSortMode=null, newAleCat=null, aleEditingId=null, aleEditingCat=null;
+
+/* Shared color meta for MEMO and VIAGGI bar colors */
+const COLOR_META={
+  red:   {label:'Rossa',  color:'#e05555'},
+  yellow:{label:'Gialla', color:'#d4a017'},
+  blue:  {label:'Blu',    color:'#5a82c8'},
+  green: {label:'Verde',  color:'#6aaa82'}
+};
+const COLOR_CATS=['red','yellow','blue','green'];
+
+/* ALE-specific categories */
+const ALE_CAT_META={
+  vestiti:   {label:'Vestiti',    emoji:'👗', color:'#e07bb5'},
+  istruzione:{label:'Istruzione', emoji:'📚', color:'#5a82c8'},
+  giochi:    {label:'Giochi',     emoji:'🎮', color:'#9b59b6'},
+  attivita:  {label:'Attività',   emoji:'🏃', color:'#e67e22'},
+  varie:     {label:'Varie',      emoji:'🎁', color:'#6aaa82'}
+};
+const ALE_CATS=['vestiti','istruzione','giochi','attivita','varie'];
+
+function selectAleCat(cat){
+  newAleCat=(newAleCat===cat)?null:cat;
+  ALE_CATS.forEach(c=>document.getElementById('achip-'+c).classList.toggle('selected',newAleCat===c));
+}
+function selectAleEditCat(cat){
+  aleEditingCat=(aleEditingCat===cat)?null:cat;
+  ALE_CATS.forEach(c=>document.getElementById('eAchip-'+c).classList.toggle('selected',aleEditingCat===c));
+}
+function onAleTyping(){
+  const v=document.getElementById('newAleInput').value.trim().length>0;
+  document.getElementById('aleCatChips').classList.toggle('visible',v);
+  if(!v){newAleCat=null;ALE_CATS.forEach(c=>document.getElementById('achip-'+c).classList.remove('selected'));}
+}
+function addAleItem(){
+  const inp=document.getElementById('newAleInput');
+  const t=inp.value.trim(); if(!t) return;
+  aleItems.unshift({id:Date.now(), text:t, cat:newAleCat,
+    date:new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'})});
+  inp.value=''; newAleCat=null;
+  document.getElementById('aleCatChips').classList.remove('visible');
+  ALE_CATS.forEach(c=>document.getElementById('achip-'+c).classList.remove('selected'));
+  saveAll(); renderAle();
+}
+function deleteAle(id){aleItems=aleItems.filter(i=>i.id!==id);saveAll();renderAle();}
+function openAleEdit(id){
+  const it=aleItems.find(i=>i.id===id); if(!it) return;
+  aleEditingId=id; aleEditingCat=it.cat||null;
+  document.getElementById('editAleModalInput').value=it.text;
+  ALE_CATS.forEach(c=>document.getElementById('eAchip-'+c).classList.toggle('selected',aleEditingCat===c));
+  document.getElementById('editAleModal').classList.add('open');
+  setTimeout(()=>document.getElementById('editAleModalInput').focus(),120);
+}
+function confirmAleEdit(){
+  const t=document.getElementById('editAleModalInput').value.trim();
+  if(!t||aleEditingId===null){closeAleEditModal();return;}
+  const it=aleItems.find(i=>i.id===aleEditingId);
+  if(it){it.text=t;it.cat=aleEditingCat;}
+  closeAleEditModal(); saveAll(); renderAle();
+}
+function closeAleEditModal(e){
+  if(e&&e.target!==document.getElementById('editAleModal')) return;
+  document.getElementById('editAleModal').classList.remove('open');
+  aleEditingId=null; aleEditingCat=null;
+}
+function sortAleByDate(){aleSortMode=aleSortMode==='date'?null:'date';document.getElementById('btnAleAZ').classList.toggle('active',aleSortMode==='date');document.getElementById('btnAleData').classList.remove('active');toast(aleSortMode==='date'?'Per data inserimento':'Ordinamento rimosso',aleSortMode==='date'?'ok':'');renderAle();}
+function sortAleByCat(){aleSortMode=aleSortMode==='cat'?null:'cat';document.getElementById('btnAleData').classList.toggle('active',aleSortMode==='cat');document.getElementById('btnAleAZ').classList.remove('active');toast(aleSortMode==='cat'?'Per categoria':'Ordinamento rimosso',aleSortMode==='cat'?'ok':'');renderAle();}
+function applyAleSort(arr){
+  if(aleSortMode==='date') return[...arr].sort((a,b)=>b.id-a.id);
+  if(aleSortMode==='cat')  return[...arr].sort((a,b)=>{const ai=ALE_CATS.indexOf(a.cat??''),bi=ALE_CATS.indexOf(b.cat??'');return(ai===-1?99:ai)-(bi===-1?99:bi)||a.text.localeCompare(b.text,'it');});
+  return arr;
+}
+function saveAleList(){saveAll();toast('Lista salvata ✓','ok');}
+function persistAle(){localStorage.setItem('jb_ale_local',JSON.stringify(aleItems));}
+function persistMemo(){localStorage.setItem('jb_memo_local',JSON.stringify(memoItems));}
+
+/* ══ MEMO STATE ══ */
+let memoItems=[], memoSortMode=null, newMemoCat=null, memoEditingId=null, memoEditingCat=null;
+
+function selectMemoCat(cat){
+  newMemoCat=(newMemoCat===cat)?null:cat;
+  COLOR_CATS.forEach(c=>document.getElementById('mchip-'+c).classList.toggle('selected',newMemoCat===c));
+}
+function selectMemoEditCat(cat){
+  memoEditingCat=(memoEditingCat===cat)?null:cat;
+  COLOR_CATS.forEach(c=>document.getElementById('eMchip-'+c).classList.toggle('selected',memoEditingCat===c));
+}
+function onMemoTyping(){
+  const v=document.getElementById('newMemoInput').value.trim().length>0;
+  document.getElementById('memoCatChips').classList.toggle('visible',v);
+  if(!v){newMemoCat=null;COLOR_CATS.forEach(c=>document.getElementById('mchip-'+c).classList.remove('selected'));}
+}
+function addMemoItem(){
+  const inp=document.getElementById('newMemoInput');
+  const t=inp.value.trim(); if(!t) return;
+  memoItems.unshift({id:Date.now(), text:t, cat:newMemoCat,
+    date:new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'})});
+  inp.value=''; newMemoCat=null;
+  document.getElementById('memoCatChips').classList.remove('visible');
+  COLOR_CATS.forEach(c=>document.getElementById('mchip-'+c).classList.remove('selected'));
+  saveAll(); renderMemo();
+}
+function deleteMemo(id){memoItems=memoItems.filter(i=>i.id!==id);saveAll();renderMemo();}
+function openMemoEdit(id){
+  const it=memoItems.find(i=>i.id===id); if(!it) return;
+  memoEditingId=id; memoEditingCat=it.cat||null;
+  document.getElementById('editMemoModalInput').value=it.text;
+  COLOR_CATS.forEach(c=>document.getElementById('eMchip-'+c).classList.toggle('selected',memoEditingCat===c));
+  document.getElementById('editMemoModal').classList.add('open');
+  setTimeout(()=>document.getElementById('editMemoModalInput').focus(),120);
+}
+function confirmMemoEdit(){
+  const t=document.getElementById('editMemoModalInput').value.trim();
+  if(!t||memoEditingId===null){closeMemoEditModal();return;}
+  const it=memoItems.find(i=>i.id===memoEditingId);
+  if(it){it.text=t;it.cat=memoEditingCat;}
+  closeMemoEditModal(); saveAll(); renderMemo();
+}
+function closeMemoEditModal(e){
+  if(e&&e.target!==document.getElementById('editMemoModal')) return;
+  document.getElementById('editMemoModal').classList.remove('open');
+  memoEditingId=null; memoEditingCat=null;
+}
+function sortMemoAlpha(){memoSortMode=memoSortMode==='alpha'?null:'alpha';document.getElementById('btnMemoAZ').classList.toggle('active',memoSortMode==='alpha');document.getElementById('btnMemoData').classList.remove('active');toast(memoSortMode==='alpha'?'Ordine alfabetico':'Ordinamento rimosso',memoSortMode==='alpha'?'ok':'');renderMemo();}
+function sortMemoByDate(){memoSortMode=memoSortMode==='date'?null:'date';document.getElementById('btnMemoData').classList.toggle('active',memoSortMode==='date');document.getElementById('btnMemoAZ').classList.remove('active');toast(memoSortMode==='date'?'Per data inserimento':'Ordinamento rimosso',memoSortMode==='date'?'ok':'');renderMemo();}
+function applyMemoSort(arr){
+  if(memoSortMode==='alpha') return[...arr].sort((a,b)=>a.text.localeCompare(b.text,'it'));
+  if(memoSortMode==='date')  return[...arr].sort((a,b)=>b.id-a.id);
+  return arr;
+}
+function saveMemoList(){saveAll();toast('Memo salvati ✓','ok');}
+function renderMemo(){
+  const sorted=applyMemoSort(memoItems);
+  document.getElementById('memoCount').textContent=sorted.length;
+  document.getElementById('memoList').innerHTML=sorted.length
+    ? sorted.map(it=>{
+        const cm=it.cat&&COLOR_META[it.cat]?COLOR_META[it.cat]:null;
+        const barCls=it.cat?` ale-cat-${it.cat}`:'';
+        const catDot=cm?`<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${cm.color};margin-right:5px;flex-shrink:0;vertical-align:middle"></span>`:'';
+        return`<div class="ale-card${barCls}">
+          <div class="ale-card-body">
+            <div class="ale-card-name">${catDot}${esc(it.text)}</div>
+            <div class="ale-card-date">${it.date||''}</div>
+          </div>
+          <div class="item-actions">
+            <button class="act-btn edit-btn" onclick="openMemoEdit(${it.id})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="act-btn del-btn" onclick="deleteMemo(${it.id})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>`;
+      }).join('')
+    : '<div class="empty">Nessun memo ancora 🐘</div>';
+}
+
+/* ══ VIAGGI STATE ══ */
+let viaggiItems=[], viaggiSortMode=null, newViaggiCat=null, viaggiEditingId=null, viaggiEditingCat=null;
+const VIAGGI_LABELS={blue:'In giornata',green:'Weekend',yellow:'Viaggio',red:'Attività x Ale'};
+const VIAGGI_CATS=['blue','green','yellow','red'];
+
+function selectViaggiCat(cat){
+  newViaggiCat=(newViaggiCat===cat)?null:cat;
+  VIAGGI_CATS.forEach(c=>document.getElementById('vchip-'+c).classList.toggle('selected',newViaggiCat===c));
+}
+function selectViaggiEditCat(cat){
+  viaggiEditingCat=(viaggiEditingCat===cat)?null:cat;
+  VIAGGI_CATS.forEach(c=>document.getElementById('eVchip-'+c).classList.toggle('selected',viaggiEditingCat===c));
+}
+function onViaggiTyping(){
+  const v=document.getElementById('newViaggiInput').value.trim().length>0;
+  document.getElementById('viaggiCatChips').classList.toggle('visible',v);
+  if(!v){newViaggiCat=null;VIAGGI_CATS.forEach(c=>document.getElementById('vchip-'+c).classList.remove('selected'));}
+}
+function addViaggiItem(){
+  const inp=document.getElementById('newViaggiInput');
+  const t=inp.value.trim(); if(!t) return;
+  viaggiItems.unshift({id:Date.now(),text:t,cat:newViaggiCat,
+    date:new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'})});
+  inp.value=''; newViaggiCat=null;
+  document.getElementById('viaggiCatChips').classList.remove('visible');
+  VIAGGI_CATS.forEach(c=>document.getElementById('vchip-'+c).classList.remove('selected'));
+  saveAll(); renderViaggi();
+}
+function deleteViaggi(id){viaggiItems=viaggiItems.filter(i=>i.id!==id);saveAll();renderViaggi();}
+function openViaggiEdit(id){
+  const it=viaggiItems.find(i=>i.id===id); if(!it) return;
+  viaggiEditingId=id; viaggiEditingCat=it.cat||null;
+  document.getElementById('editViaggiModalInput').value=it.text;
+  VIAGGI_CATS.forEach(c=>document.getElementById('eVchip-'+c).classList.toggle('selected',viaggiEditingCat===c));
+  document.getElementById('editViaggiModal').classList.add('open');
+  setTimeout(()=>document.getElementById('editViaggiModalInput').focus(),120);
+}
+function confirmViaggiEdit(){
+  const t=document.getElementById('editViaggiModalInput').value.trim();
+  if(!t||viaggiEditingId===null){closeViaggiEditModal();return;}
+  const it=viaggiItems.find(i=>i.id===viaggiEditingId);
+  if(it){it.text=t;it.cat=viaggiEditingCat;}
+  closeViaggiEditModal(); saveAll(); renderViaggi();
+}
+function closeViaggiEditModal(e){
+  if(e&&e.target!==document.getElementById('editViaggiModal')) return;
+  document.getElementById('editViaggiModal').classList.remove('open');
+  viaggiEditingId=null; viaggiEditingCat=null;
+}
+function sortViaggiByDate(){viaggiSortMode=viaggiSortMode==='date'?null:'date';document.getElementById('btnViaggiAZ').classList.toggle('active',viaggiSortMode==='date');document.getElementById('btnViaggiData').classList.remove('active');toast(viaggiSortMode==='date'?'Per data inserimento':'Ordinamento rimosso',viaggiSortMode==='date'?'ok':'');renderViaggi();}
+function sortViaggiByCategoria(){viaggiSortMode=viaggiSortMode==='cat'?null:'cat';document.getElementById('btnViaggiData').classList.toggle('active',viaggiSortMode==='cat');document.getElementById('btnViaggiAZ').classList.remove('active');toast(viaggiSortMode==='cat'?'Per categoria':'Ordinamento rimosso',viaggiSortMode==='cat'?'ok':'');renderViaggi();}
+function applyViaggiSort(arr){
+  if(viaggiSortMode==='date') return[...arr].sort((a,b)=>b.id-a.id);
+  if(viaggiSortMode==='cat')  return[...arr].sort((a,b)=>{const ai=VIAGGI_CATS.indexOf(a.cat??''),bi=VIAGGI_CATS.indexOf(b.cat??'');return(ai===-1?99:ai)-(bi===-1?99:bi)||a.text.localeCompare(b.text,'it');});
+  return arr;
+}
+function saveViaggiList(){saveAll();toast('Viaggi salvati ✓','ok');}
+function persistViaggi(){localStorage.setItem('jb_viaggi_local',JSON.stringify(viaggiItems));}
+function renderViaggi(){
+  const sorted=applyViaggiSort(viaggiItems);
+  document.getElementById('viaggiCount').textContent=sorted.length;
+  document.getElementById('viaggiList').innerHTML=sorted.length
+    ? sorted.map(it=>{
+        const cm=it.cat&&COLOR_META[it.cat]?COLOR_META[it.cat]:null;
+        const label=it.cat?VIAGGI_LABELS[it.cat]||'':'';
+        const barCls=it.cat?` ale-cat-${it.cat}`:'';
+        const catDot=cm?`<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${cm.color};margin-right:5px;flex-shrink:0;vertical-align:middle"></span>`:'';
+        return`<div class="ale-card${barCls}">
+          <div class="ale-card-body">
+            <div class="ale-card-name">${catDot}${esc(it.text)}</div>
+            <div class="ale-card-date" style="display:flex;gap:6px;align-items:center">
+              ${label?`<span style="font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:${cm?.color||'var(--text3)'}">${label}</span>`:''}
+              ${label&&it.date?`<span style="opacity:.4">·</span>`:''}
+              ${it.date?`<span>${it.date}</span>`:''}
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="act-btn edit-btn" onclick="openViaggiEdit(${it.id})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="act-btn del-btn" onclick="deleteViaggi(${it.id})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>`;
+      }).join('')
+    : '<div class="empty">Nessuna meta ancora 🍗</div>';
+}
+function renderAle(){
+  const sorted=applyAleSort(aleItems);
+  document.getElementById('aleCount').textContent=sorted.length;
+  document.getElementById('aleList').innerHTML=sorted.length
+    ? sorted.map(it=>{
+        const cm=it.cat&&ALE_CAT_META[it.cat]?ALE_CAT_META[it.cat]:null;
+        const barCls=it.cat?` ale-cat-${it.cat}`:'';
+        const catBadge=cm?`<span style="font-size:.72rem;margin-right:4px">${cm.emoji}</span>`:'';
+        return`<div class="ale-card${barCls}">
+          <div class="ale-card-body">
+            <div class="ale-card-name">${catBadge}${esc(it.text)}</div>
+            <div class="ale-card-date">${it.date||''}</div>
+          </div>
+          <div class="item-actions">
+            <button class="act-btn edit-btn" onclick="openAleEdit(${it.id})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="act-btn del-btn" onclick="deleteAle(${it.id})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>`;
+      }).join('')
+    : '<div class="empty">Lista vuota 🦊</div>';
+}
+
+/* ══ SECTION SWITCH ══ */
+let currentSection='spesa';
+function switchSection(sec){
+  currentSection=sec; closeMenu();
+  document.body.classList.remove('film-active','settings-active','ristoranti-active','ale-active','memo-active','viaggi-active');
+  if(sec==='film')       document.body.classList.add('film-active');
+  if(sec==='settings')   document.body.classList.add('settings-active');
+  if(sec==='ristoranti') document.body.classList.add('ristoranti-active');
+  if(sec==='ale')        document.body.classList.add('ale-active');
+  if(sec==='memo')       document.body.classList.add('memo-active');
+  if(sec==='viaggi')     document.body.classList.add('viaggi-active');
+  document.getElementById('sectionSpesa').style.display      = sec==='spesa'      ?'block':'none';
+  document.getElementById('sectionFilm').style.display       = sec==='film'       ?'block':'none';
+  document.getElementById('sectionSettings').style.display   = sec==='settings'   ?'block':'none';
+  document.getElementById('sectionRistoranti').style.display = sec==='ristoranti' ?'block':'none';
+  document.getElementById('sectionAle').style.display        = sec==='ale'        ?'block':'none';
+  document.getElementById('sectionMemo').style.display       = sec==='memo'       ?'block':'none';
+  document.getElementById('sectionViaggi').style.display     = sec==='viaggi'     ?'block':'none';
+  document.getElementById('addArea').style.display           = sec==='settings'   ?'none':'block';
+  document.getElementById('addSpesa').style.display          = sec==='spesa'      ?'block':'none';
+  document.getElementById('addFilm').style.display           = sec==='film'       ?'block':'none';
+  document.getElementById('addRistoranti').style.display     = sec==='ristoranti' ?'block':'none';
+  document.getElementById('addAle').style.display            = sec==='ale'        ?'block':'none';
+  document.getElementById('addMemo').style.display           = sec==='memo'       ?'block':'none';
+  document.getElementById('addViaggi').style.display         = sec==='viaggi'     ?'block':'none';
+  document.getElementById('toolbarSpesa').style.display      = sec==='spesa'      ?'flex':'none';
+  document.getElementById('toolbarFilm').style.display       = sec==='film'       ?'flex':'none';
+  document.getElementById('toolbarRistoranti').style.display = sec==='ristoranti' ?'flex':'none';
+  document.getElementById('toolbarAle').style.display        = sec==='ale'        ?'flex':'none';
+  document.getElementById('toolbarMemo').style.display       = sec==='memo'       ?'flex':'none';
+  document.getElementById('toolbarViaggi').style.display     = sec==='viaggi'     ?'flex':'none';
+  document.getElementById('syncPill').style.display          = sec==='settings'   ?'none':'flex';
+  ['Spesa','Film','Settings','Ristoranti','Ale','Memo','Viaggi'].forEach(s=>{
+    const el=document.getElementById('menuItem'+s);
+    if(el) el.classList.toggle('active', sec===s.toLowerCase());
+  });
+  const icons={spesa:'🦛',film:'🦧',settings:'⚙️',ristoranti:'🦦',ale:'🦊',memo:'🐘',viaggi:'🍗'};
+  const titles={spesa:'Spesa da <em>Ippopotami</em>',film:'Film dei <em>Babbuini</em>',settings:'<em>Impostazioni</em>',ristoranti:'I mangia <em>Patate</em>',ale:'Sandrino <em>Personalshopper</em>',memo:'Memoria da <em>Elefanti</em>',viaggi:'Weekend con <em>Jumbologna</em>'};
+  const subs={spesa:'Lista condivisa',film:'Lista film',settings:'Configurazione',ristoranti:'Dove mangiare',ale:'Lista personale',memo:'Note e promemoria',viaggi:'Mete e avventure'};
+  document.getElementById('headerIcon').textContent = icons[sec];
+  document.getElementById('headerTitle').innerHTML  = titles[sec];
+  document.getElementById('headerSub').textContent  = subs[sec];
+  if(sec==='film') renderFilm();
+  if(sec==='ristoranti') renderRist();
+  if(sec==='ale') renderAle();
+  if(sec==='memo') renderMemo();
+  if(sec==='viaggi') renderViaggi();
+  setHeaderVar();
+}
+
+/* ══ MENU ══ */
+function toggleMenu(){
+  const d=document.getElementById('menuDrawer'),o=document.getElementById('menuOverlay');
+  const open=d.classList.toggle('open'); o.classList.toggle('open',open);
+}
+function closeMenu(){
+  document.getElementById('menuDrawer').classList.remove('open');
+  document.getElementById('menuOverlay').classList.remove('open');
+}
+
+/* ══ INIT ══ */
+function init(){
+  apiKey=localStorage.getItem('jb_key')||''; binId=localStorage.getItem('jb_bin')||'';
+  if(apiKey) document.getElementById('apiKeyInput').value=apiKey;
+  if(binId)  document.getElementById('binIdInput').value=binId;
+  if(apiKey&&binId) document.getElementById('cfgNote').textContent='Connesso — BIN: '+binId;
+  try{items=JSON.parse(localStorage.getItem('jb_local')||'[]')}catch(e){items=[]}
+  try{filmItems=JSON.parse(localStorage.getItem('jb_film_local')||'[]')}catch(e){filmItems=[]}
+  try{ristItems=JSON.parse(localStorage.getItem('jb_rist_local')||'[]')}catch(e){ristItems=[]}
+  try{aleItems=JSON.parse(localStorage.getItem('jb_ale_local')||'[]')}catch(e){aleItems=[]}
+  try{memoItems=JSON.parse(localStorage.getItem('jb_memo_local')||'[]')}catch(e){memoItems=[]}
+  try{viaggiItems=JSON.parse(localStorage.getItem('jb_viaggi_local')||'[]')}catch(e){viaggiItems=[]}
+  renderAll();
+  if(apiKey&&binId){loadList();setInterval(()=>{if(apiKey&&binId)loadList();},30000);}
+  updateColumnsLayout();
+}
+
+/* ══ CONFIG/JSONBIN ══ */
+function saveConfig(){
+  apiKey=document.getElementById('apiKeyInput').value.trim();
+  binId=document.getElementById('binIdInput').value.trim();
+  if(!apiKey){toast('Inserisci la API Key','err');return;}
+  localStorage.setItem('jb_key',apiKey); localStorage.setItem('jb_bin',binId);
+  document.getElementById('cfgNote').textContent=binId?'Connesso — BIN: '+binId:'API Key salvata.';
+  toast('Configurazione salvata ✓','ok');
+  if(apiKey&&binId) loadList();
+}
+async function createBin(){
+  apiKey=document.getElementById('apiKeyInput').value.trim();
+  if(!apiKey){toast('Inserisci prima la API Key','err');return;}
+  sync('syncing','Creazione…');
+  try{
+    const r=await fetch('https://api.jsonbin.io/v3/b',{method:'POST',headers:{'Content-Type':'application/json','X-Master-Key':apiKey,'X-Bin-Name':'Panda Squad'},body:JSON.stringify({items:[],filmItems:[],ristItems:[],aleItems:[],memoItems:[],viaggiItems:[]})});
+    const d=await r.json();
+    if(d.metadata?.id){
+      binId=d.metadata.id;
+      document.getElementById('binIdInput').value=binId;
+      localStorage.setItem('jb_key',apiKey);
+      localStorage.setItem('jb_bin',binId);
+      document.getElementById('cfgNote').textContent='Connesso — BIN: '+binId;
+      toast('Bin creato! ID: '+binId,'ok');
+      await saveAll(); /* push any existing local data immediately */
+      setInterval(()=>{if(apiKey&&binId)loadList();},30000);
+    } else {sync('error','Errore');toast('Errore creazione bin','err');}
+  }catch(e){sync('error','Errore');toast('Errore di rete','err');}
+}
+
+/* Single save that writes ALL sections to JSONBin */
+async function saveAll(){
+  /* always persist locally first */
+  persist(); persistFilm(); persistRist(); persistAle(); persistMemo(); persistViaggi();
+  if(!apiKey||!binId) return;
+  sync('syncing','Salvataggio…');
+  try{
+    const payload={items,filmItems,ristItems,aleItems,memoItems,viaggiItems};
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${binId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':apiKey},body:JSON.stringify(payload)});
+    const d=await r.json();
+    if(d.record){sync('ok','Salvato '+hm());}
+    else{sync('error','Errore salvataggio');toast('Errore nel salvataggio ✗','err');}
+  }catch(e){sync('error','Errore rete');toast('Errore di rete — dati salvati in locale','err');}
+}
+
+/* Kept for the Spesa "Aggiorna" button */
+async function saveList(){
+  await saveAll();
+  toast('Lista salvata ✓','ok');
+}
+
+async function loadList(){
+  if(!apiKey||!binId)return;
+  sync('syncing','Aggiornamento…');
+  try{
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`,{headers:{'X-Master-Key':apiKey}});
+    const d=await r.json();
+    if(d.record){
+      const rec=d.record;
+      if(Array.isArray(rec.items))     {items=rec.items;     persist();}
+      if(Array.isArray(rec.filmItems)) {filmItems=rec.filmItems; persistFilm();}
+      if(Array.isArray(rec.ristItems)) {ristItems=rec.ristItems; persistRist();}
+      if(Array.isArray(rec.aleItems))  {aleItems=rec.aleItems;  persistAle();}
+      if(Array.isArray(rec.memoItems))   {memoItems=rec.memoItems;   persistMemo();}
+      if(Array.isArray(rec.viaggiItems)) {viaggiItems=rec.viaggiItems; persistViaggi();}
+      renderAll(); renderFilm(); renderRist(); renderAle(); renderMemo(); renderViaggi();
+      sync('ok','Aggiornato '+hm()); toast('Dati aggiornati ✓','ok');
+    } else {sync('error','Errore');toast('Errore nel caricamento','err');}
+  }catch(e){sync('error','Errore');toast('Errore di rete','err');}
+}
+function saveFilmList(){saveAll();toast('Film salvati ✓','ok');}
+
+/* ══ SPESA ITEMS ══ */
+function addItem(){const inp=document.getElementById('newItemInput');const t=inp.value.trim();if(!t)return;items.unshift({id:Date.now(),text:t,done:false,cat:newCat});inp.value='';newCat=null;hideCatChips();persist();renderAll();saveAll();}
+function toggleItem(id){const it=items.find(i=>i.id===id);if(!it)return;it.done=!it.done;persist();renderAll();saveAll();}
+function deleteItem(id){items=items.filter(i=>i.id!==id);persist();renderAll();saveAll();}
+function openEdit(id){const it=items.find(i=>i.id===id);if(!it)return;editingId=id;editingCat=it.cat||null;document.getElementById('editModalInput').value=it.text;['box','milk','apple','farmacia','casa'].forEach(c=>document.getElementById('eChip-'+c).classList.toggle('selected',editingCat===c));document.getElementById('editModal').classList.add('open');setTimeout(()=>document.getElementById('editModalInput').focus(),120);}
+function selectEditCat(cat){editingCat=(editingCat===cat)?null:cat;['box','milk','apple','farmacia','casa'].forEach(c=>document.getElementById('eChip-'+c).classList.toggle('selected',editingCat===c));}
+function confirmEdit(){const t=document.getElementById('editModalInput').value.trim();if(!t||editingId===null){closeEditModal();return;}const it=items.find(i=>i.id===editingId);if(it){it.text=t;it.cat=editingCat;}closeEditModal();persist();renderAll();saveAll();}
+function closeEditModal(e){if(e&&e.target!==document.getElementById('editModal'))return;document.getElementById('editModal').classList.remove('open');editingId=null;editingCat=null;}
+function onTyping(){document.getElementById('newItemInput').value.trim().length>0?showCatChips():hideCatChips();}
+function showCatChips(){document.getElementById('catChips').classList.add('visible');}
+function hideCatChips(){document.getElementById('catChips').classList.remove('visible');selectCat(null);}
+function selectCat(cat){newCat=(newCat===cat&&cat!==null)?null:cat;['box','milk','apple','farmacia','casa'].forEach(c=>document.getElementById('chip-'+c).classList.toggle('selected',newCat===c));}
+function sortAlpha(){sortMode=sortMode==='alpha'?null:'alpha';document.getElementById('btnAZ').classList.toggle('active',sortMode==='alpha');document.getElementById('btnCat').classList.remove('active');toast(sortMode==='alpha'?'Ordine alfabetico':'Ordinamento rimosso',sortMode==='alpha'?'ok':'');renderAll();}
+function sortByCategory(){sortMode=sortMode==='cat'?null:'cat';document.getElementById('btnCat').classList.toggle('active',sortMode==='cat');document.getElementById('btnAZ').classList.remove('active');toast(sortMode==='cat'?'Ordine per categoria':'Ordinamento rimosso',sortMode==='cat'?'ok':'');renderAll();}
+function applySort(arr,order){if(sortMode==='alpha')return[...arr].sort((a,b)=>a.text.localeCompare(b.text,'it'));if(sortMode==='cat')return[...arr].sort((a,b)=>{const ai=a.cat?order.indexOf(a.cat):99,bi=b.cat?order.indexOf(b.cat):99;return ai!==bi?ai-bi:a.text.localeCompare(b.text,'it')});return arr;}
+function updateColumnsLayout(){const cM=document.getElementById('colMain'),cA=document.getElementById('colAltro');cM.classList.remove('slim','solo');cA.classList.remove('slim','solo');if(mainOpen&&altroOpen){}else if(mainOpen&&!altroOpen){cM.classList.add('solo');cA.classList.add('slim');}else if(!mainOpen&&altroOpen){cA.classList.add('solo');cM.classList.add('slim');}else{cM.classList.add('slim');cA.classList.add('slim');}const ma=document.getElementById('mainArrow');if(ma)ma.classList.toggle('up',mainOpen);}
+function toggleMain(){mainOpen=!mainOpen;updateColumnsLayout();}
+function toggleDone(){doneOpen=!doneOpen;document.getElementById('doneWrap').style.display=doneOpen?'block':'none';document.getElementById('doneArrow').classList.toggle('up',doneOpen);}
+function toggleAltro(){altroOpen=!altroOpen;document.getElementById('altroWrap').style.display=altroOpen?'block':'none';document.getElementById('altroArrow').classList.toggle('up',altroOpen);updateColumnsLayout();}
+function toggleAltroDone(){altroDoneOpen=!altroDoneOpen;document.getElementById('altroDoneWrap').style.display=altroDoneOpen?'block':'none';document.getElementById('altroDoneArrow').classList.toggle('up',altroDoneOpen);}
+function isAltro(it){return it.cat&&ALTRO_CATS.includes(it.cat);}
+function renderAll(){
+  const aA=applySort(items.filter(i=>isAltro(i)&&!i.done),ALTRO_ORDER);
+  const aD=applySort(items.filter(i=>isAltro(i)&&i.done),ALTRO_ORDER);
+  const mA=applySort(items.filter(i=>!isAltro(i)&&!i.done),MAIN_ORDER);
+  const mD=applySort(items.filter(i=>!isAltro(i)&&i.done),MAIN_ORDER);
+  document.getElementById('altroCount').textContent=aA.length+aD.length;
+  document.getElementById('altroActiveCount').textContent=aA.length;
+  document.getElementById('altroDoneCount').textContent=aD.length;
+  document.getElementById('activeCount').textContent=mA.length;
+  document.getElementById('doneCount').textContent=mD.length;
+  const mc=document.getElementById('mainCount');if(mc)mc.textContent=mA.length+mD.length;
+  document.getElementById('altroActiveList').innerHTML=aA.length?aA.map(itemHTML).join(''):'<div class="empty" style="margin:0 0 4px">Nessun articolo 🌿</div>';
+  document.getElementById('altroDoneList').innerHTML=aD.map(itemHTML).join('');
+  document.getElementById('activeList').innerHTML=mA.length?mA.map(itemHTML).join(''):'<div class="empty">Nessun articolo da acquistare 🌿</div>';
+  document.getElementById('doneList').innerHTML=mD.map(itemHTML).join('');
+}
+function itemHTML(it){
+  const cat=it.cat&&CAT_META[it.cat]?CAT_META[it.cat]:null;
+  const dot=cat?`<span class="cat-dot" style="background:${cat.color}"></span>`:'';
+  const catCls=it.cat?` has-cat-${it.cat}`:'';
+  return`<div class="item${it.done?' done':''}${catCls}" onclick="toggleItem(${it.id})"><div class="item-body"><div class="item-name-row">${dot}<span class="item-name">${esc(it.text)}</span></div></div><div class="item-actions"><button class="act-btn edit-btn" onclick="event.stopPropagation();openEdit(${it.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="act-btn del-btn" onclick="event.stopPropagation();deleteItem(${it.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div></div>`;
+}
+
+/* ══ FILM ITEMS ══ */
+function addFilm(){const inp=document.getElementById('newFilmInput');const t=inp.value.trim();if(!t)return;filmItems.unshift({id:Date.now(),text:t,cat:newFilmCat,persona:newFilmPersona,downloaded:false,unavailable:false,watched:false});inp.value='';newFilmCat=null;newFilmPersona=null;hideFilmCatChips();saveAll();renderFilm();}
+function deleteFilm(id){filmItems=filmItems.filter(i=>i.id!==id);saveAll();renderFilm();}
+function toggleFilmWatched(id){const it=filmItems.find(i=>i.id===id);if(!it)return;it.watched=!it.watched;saveAll();renderFilm();}
+function toggleFilmFlag(id,flag){const it=filmItems.find(i=>i.id===id);if(!it)return;it[flag]=!it[flag];saveAll();renderFilm();}
+function openFilmEdit(id){const it=filmItems.find(i=>i.id===id);if(!it)return;filmEditingId=id;filmEditingCat=it.cat||null;filmEditingPersona=it.persona||null;document.getElementById('editFilmModalInput').value=it.text;['netflix','prime','disney','pirata','raiplay'].forEach(c=>document.getElementById('eFchip-'+c).classList.toggle('selected',filmEditingCat===c));['nico','ila'].forEach(p=>document.getElementById('eFpchip-'+p).classList.toggle('selected',filmEditingPersona===p));document.getElementById('editFilmModal').classList.add('open');setTimeout(()=>document.getElementById('editFilmModalInput').focus(),120);}
+function selectFilmEditCat(cat){filmEditingCat=(filmEditingCat===cat)?null:cat;['netflix','prime','disney','pirata','raiplay'].forEach(c=>document.getElementById('eFchip-'+c).classList.toggle('selected',filmEditingCat===c));}
+function selectFilmEditPersona(p){filmEditingPersona=(filmEditingPersona===p)?null:p;['nico','ila'].forEach(x=>document.getElementById('eFpchip-'+x).classList.toggle('selected',filmEditingPersona===x));}
+function confirmFilmEdit(){const t=document.getElementById('editFilmModalInput').value.trim();if(!t||filmEditingId===null){closeFilmEditModal();return;}const it=filmItems.find(i=>i.id===filmEditingId);if(it){it.text=t;it.cat=filmEditingCat;it.persona=filmEditingPersona;}closeFilmEditModal();saveAll();renderFilm();}
+function closeFilmEditModal(e){if(e&&e.target!==document.getElementById('editFilmModal'))return;document.getElementById('editFilmModal').classList.remove('open');filmEditingId=null;filmEditingCat=null;filmEditingPersona=null;}
+function onFilmTyping(){const v=document.getElementById('newFilmInput').value.trim().length>0;if(v){showFilmCatChips();}else{hideFilmCatChips();}}
+function showFilmCatChips(){document.getElementById('filmCatChips').classList.add('visible');document.getElementById('filmPersonaChips').classList.add('visible');}
+function hideFilmCatChips(){document.getElementById('filmCatChips').classList.remove('visible');document.getElementById('filmPersonaChips').classList.remove('visible');selectFilmCat(null);selectFilmPersona(null);}
+function selectFilmCat(cat){newFilmCat=(newFilmCat===cat&&cat!==null)?null:cat;['netflix','prime','disney','pirata','raiplay'].forEach(c=>document.getElementById('fchip-'+c).classList.toggle('selected',newFilmCat===c));}
+function selectFilmPersona(p){newFilmPersona=(newFilmPersona===p&&p!==null)?null:p;['nico','ila'].forEach(x=>document.getElementById('fpchip-'+x).classList.toggle('selected',newFilmPersona===x));}
+function sortFilmByDisp(){filmSortMode=filmSortMode==='disp'?null:'disp';document.getElementById('btnFilmDisp').classList.toggle('active',filmSortMode==='disp');document.getElementById('btnFilmPersona').classList.remove('active');toast(filmSortMode==='disp'?'Disponibili in cima':'Ordinamento rimosso',filmSortMode==='disp'?'ok':'');renderFilm();}
+function sortFilmByPersona(){filmSortMode=filmSortMode==='persona'?null:'persona';document.getElementById('btnFilmPersona').classList.toggle('active',filmSortMode==='persona');document.getElementById('btnFilmDisp').classList.remove('active');toast(filmSortMode==='persona'?'Per Nico / Ila':'Ordinamento rimosso',filmSortMode==='persona'?'ok':'');renderFilm();}
+function applyFilmSort(arr){
+  if(filmSortMode==='disp'){
+    /* Disponibili (unavailable=false) prima, non disponibili in fondo */
+    return[...arr].sort((a,b)=>{
+      const aND=a.unavailable?1:0, bND=b.unavailable?1:0;
+      return aND-bND||a.text.localeCompare(b.text,'it');
+    });
+  }
+  if(filmSortMode==='persona'){
+    const order={nico:0,ila:1};
+    return[...arr].sort((a,b)=>{
+      const ai=a.persona!=null?(order[a.persona]??2):2;
+      const bi=b.persona!=null?(order[b.persona]??2):2;
+      return ai!==bi?ai-bi:a.text.localeCompare(b.text,'it');
+    });
+  }
+  return arr;
+}
+function toggleFilmSub(which){if(which==='scaricato'){filmScaricatoOpen=!filmScaricatoOpen;document.getElementById('filmScaricatoWrap').style.display=filmScaricatoOpen?'block':'none';document.getElementById('filmScaricatoArrow').classList.toggle('up',filmScaricatoOpen);}else{filmVistoOpen=!filmVistoOpen;document.getElementById('filmVistoWrap').style.display=filmVistoOpen?'block':'none';document.getElementById('filmVistoArrow').classList.toggle('up',filmVistoOpen);}}
+function getFilmSection(it){if(it.watched)return'visto';if(it.downloaded)return'scaricato';return'davedere';}
+
+function renderFilm(){
+  const dv=applyFilmSort(filmItems.filter(i=>getFilmSection(i)==='davedere'));
+  const sc=applyFilmSort(filmItems.filter(i=>getFilmSection(i)==='scaricato'));
+  const vi=applyFilmSort(filmItems.filter(i=>getFilmSection(i)==='visto'));
+  document.getElementById('filmDaVedereCount').textContent=dv.length;
+  document.getElementById('filmScaricatoCount').textContent=sc.length;
+  document.getElementById('filmVistoCount').textContent=vi.length;
+  document.getElementById('filmDaVedereList').innerHTML=dv.length?dv.map(filmItemHTML).join(''):'<div class="empty">Nessun film da vedere 🎬</div>';
+  document.getElementById('filmScaricatoList').innerHTML=sc.length?sc.map(filmItemHTML).join(''):'<div class="empty" style="margin:0 0 4px">Nessun film scaricato ⬇</div>';
+  document.getElementById('filmVistoList').innerHTML=vi.length?vi.map(filmItemHTML).join(''):'<div class="empty" style="margin:0 0 4px">Nessun film visto ✅</div>';
+}
+
+function filmItemHTML(it){
+  const cm=it.cat&&FILM_CAT_META[it.cat]?FILM_CAT_META[it.cat]:null;
+  const pm=it.persona&&FILM_PERSONA_META[it.persona]?FILM_PERSONA_META[it.persona]:null;
+  /* Bar color: persona takes priority, else service cat */
+  const barCls=pm?` persona-${it.persona}`:(it.cat?` has-cat-${it.cat}`:'');
+  const secCls=getFilmSection(it)==='visto'?' in-visto':'';
+  const chkD=it.downloaded?' checked':'';
+  const chkN=it.unavailable?' checked':'';
+  const svgChk=`<svg class="flag-chk" viewBox="0 0 14 14" fill="none" stroke-width="2.2" style="width:13px;height:13px"><polyline points="2,7 5.5,10.5 12,3"/></svg>`;
+  /* Service label stays as text; persona label shown as small colored tag */
+  const catLine=cm?`<div class="film-card-cat" style="color:${cm.color}">${cm.label}</div>`:'';
+  const personaTag=pm?`<span class="film-card-cat" style="color:${pm.color};margin-left:${cm?'6px':'0'};display:inline-block">${pm.label}</span>`:'';
+  const metaLine=(cm||pm)?`<div style="display:flex;align-items:center;flex-wrap:wrap;gap:0">${catLine}${personaTag}</div>`:'';
+  return`<div class="film-card${barCls}${secCls}" onclick="toggleFilmWatched(${it.id})">
+    <div class="film-flags" onclick="event.stopPropagation()">
+      <div class="film-flag flag-dwnld${chkD}" onclick="toggleFilmFlag(${it.id},'downloaded')" title="Scaricato">
+        <span class="flag-txt">DWNLD</span>${svgChk}
+      </div>
+      <div class="film-flag flag-nd${chkN}" onclick="toggleFilmFlag(${it.id},'unavailable')" title="Non disponibile">
+        <span class="flag-txt" style="font-size:.44rem">NON<br>DISP</span>${svgChk}
+      </div>
+    </div>
+    <div class="film-card-body">
+      <div class="film-card-name">${esc(it.text)}</div>${metaLine}
+    </div>
+    <div class="item-actions" onclick="event.stopPropagation()">
+      <button class="act-btn edit-btn" onclick="openFilmEdit(${it.id})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </button>
+      <button class="act-btn del-btn" onclick="deleteFilm(${it.id})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>`;
+}
+
+/* ══ RISTORANTI ITEMS ══ */
+let ristItems=[],ristSortMode=null,ristAndatiOpen=true;
+let newRistTip=null, newRistZona=null;
+
+const RIST_TIP_META={
+  regionale: {label:'Regionale', emoji:'🍝', color:'#e05555'},
+  etnico:    {label:'Etnico',    emoji:'🌍', color:'#d4a017'},
+  pizza:     {label:'Pizza',     emoji:'🍕', color:'#e67e22'},
+  agriturismo:{label:'Agriturismo',emoji:'🌾',color:'#6aaa82'},
+  altro:     {label:'Altro',     emoji:'⭐', color:'#8240bb'}
+};
+const RIST_ZONA_META={
+  provincia: {label:'Provincia', emoji:'🗺️', color:'#5a82c8'},
+  milano:    {label:'Milano',    emoji:'🏙️', color:'#08595e'},
+  altra:     {label:'Altro',     emoji:'📍', color:'#999'}
+};
+const RIST_TIP_CATS=['regionale','etnico','pizza','agriturismo','altro'];
+const RIST_ZONA_CATS=['provincia','milano','altra'];
+
+function selectRistTip(cat){
+  newRistTip=(newRistTip===cat)?null:cat;
+  RIST_TIP_CATS.forEach(c=>document.getElementById('rtchip-'+c).classList.toggle('selected',newRistTip===c));
+}
+function selectRistZona(cat){
+  newRistZona=(newRistZona===cat)?null:cat;
+  RIST_ZONA_CATS.forEach(c=>document.getElementById('rzchip-'+c).classList.toggle('selected',newRistZona===c));
+}
+
+function onRistTyping(){
+  const q=document.getElementById('newRistInput').value.trim();
+  const show=q.length>0;
+  document.getElementById('ristTipChips').classList.toggle('visible',show);
+  document.getElementById('ristZonaChips').classList.toggle('visible',show);
+  if(!show){
+    newRistTip=null; newRistZona=null;
+    RIST_TIP_CATS.forEach(c=>document.getElementById('rtchip-'+c).classList.remove('selected'));
+    RIST_ZONA_CATS.forEach(c=>document.getElementById('rzchip-'+c).classList.remove('selected'));
+  }
+}
+
+function addRistManual(){
+  const inp=document.getElementById('newRistInput');
+  const t=inp.value.trim(); if(!t) return;
+  const mapsUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(t)}`;
+  ristItems.unshift({
+    id:Date.now(), text:t, andati:false, thumb:null, mapsUrl, via:null,
+    tip:newRistTip, zona:newRistZona,
+    date:new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'})
+  });
+  inp.value=''; newRistTip=null; newRistZona=null;
+  document.getElementById('ristTipChips').classList.remove('visible');
+  document.getElementById('ristZonaChips').classList.remove('visible');
+  RIST_TIP_CATS.forEach(c=>document.getElementById('rtchip-'+c).classList.remove('selected'));
+  RIST_ZONA_CATS.forEach(c=>document.getElementById('rzchip-'+c).classList.remove('selected'));
+  saveAll(); renderRist();
+}
+function deleteRist(id){ristItems=ristItems.filter(i=>i.id!==id);saveAll();renderRist();}
+function toggleRistAndati(id){const it=ristItems.find(i=>i.id===id);if(!it)return;it.andati=!it.andati;saveAll();renderRist();}
+function setRistThumb(id,val){
+  const it=ristItems.find(i=>i.id===id);if(!it)return;
+  it.thumb=(it.thumb===val)?null:val;
+  saveAll();renderRist();
+}
+function sortRistByZona(){ristSortMode=ristSortMode==='zona'?null:'zona';document.getElementById('btnRistAZ').classList.toggle('active',ristSortMode==='zona');document.getElementById('btnRistData').classList.remove('active');toast(ristSortMode==='zona'?'Per zona':'Ordinamento rimosso',ristSortMode==='zona'?'ok':'');renderRist();}
+function sortRistByTipo(){ristSortMode=ristSortMode==='tipo'?null:'tipo';document.getElementById('btnRistData').classList.toggle('active',ristSortMode==='tipo');document.getElementById('btnRistAZ').classList.remove('active');toast(ristSortMode==='tipo'?'Per tipologia':'Ordinamento rimosso',ristSortMode==='tipo'?'ok':'');renderRist();}
+function applyRistSort(arr){
+  const ZONA_ORDER=['milano','provincia','altra'];
+  const TIPO_ORDER=['regionale','pizza','agriturismo','etnico','altro'];
+  if(ristSortMode==='zona') return[...arr].sort((a,b)=>{const ai=ZONA_ORDER.indexOf(a.zona??''),bi=ZONA_ORDER.indexOf(b.zona??'');return(ai===-1?99:ai)-(bi===-1?99:bi)||a.text.localeCompare(b.text,'it');});
+  if(ristSortMode==='tipo') return[...arr].sort((a,b)=>{const ai=TIPO_ORDER.indexOf(a.tip??''),bi=TIPO_ORDER.indexOf(b.tip??'');return(ai===-1?99:ai)-(bi===-1?99:bi)||a.text.localeCompare(b.text,'it');});
+  return arr;
+}
+function toggleRistSub(){ristAndatiOpen=!ristAndatiOpen;document.getElementById('ristAndatiWrap').style.display=ristAndatiOpen?'block':'none';document.getElementById('ristAndatiArrow').classList.toggle('up',ristAndatiOpen);}
+function saveRistList(){saveAll();toast('Ristoranti salvati ✓','ok');}
+function persistRist(){localStorage.setItem('jb_rist_local',JSON.stringify(ristItems));}
+function renderRist(){
+  const andare=applyRistSort(ristItems.filter(i=>!i.andati));
+  const andati=applyRistSort(ristItems.filter(i=>i.andati));
+  document.getElementById('ristAndareCount').textContent=andare.length;
+  document.getElementById('ristAndatiCount').textContent=andati.length;
+  document.getElementById('ristAndareList').innerHTML=andare.length?andare.map(ristItemHTML).join(''):'<div class="empty">Nessun posto ancora 🦦</div>';
+  document.getElementById('ristAndatiList').innerHTML=andati.length?andati.map(ristItemHTML).join(''):'<div class="empty" style="margin:0 0 4px">Nessun posto visitato 🍽</div>';
+}
+function ristItemHTML(it){
+  const upCls='rist-thumb up'+(it.thumb==='up'?' selected':'')+(it.thumb==='down'?' dimmed':'');
+  const dnCls='rist-thumb down'+(it.thumb==='down'?' selected':'')+(it.thumb==='up'?' dimmed':'');
+  const andatiCls=it.andati?' in-andati':'';
+  const mapsBtn=it.mapsUrl
+    ?`<a class="maps-btn has-link" href="${it.mapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Apri su Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></a>`
+    :`<a class="maps-btn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(it.text)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Cerca su Google Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></a>`;
+  const viaLine=it.via?`<div class="rist-card-via">${esc(it.via)}</div>`:'';
+  const tipM=it.tip&&RIST_TIP_META[it.tip]?RIST_TIP_META[it.tip]:null;
+  const zonaM=it.zona&&RIST_ZONA_META[it.zona]?RIST_ZONA_META[it.zona]:null;
+  const tagsLine=(tipM||zonaM)?`<div class="rist-card-tags">
+    ${tipM?`<span class="rist-tag" style="background:${tipM.color}18;color:${tipM.color};border:1px solid ${tipM.color}44">${tipM.emoji} ${tipM.label}</span>`:''}
+    ${zonaM?`<span class="rist-tag" style="background:${zonaM.color}18;color:${zonaM.color};border:1px solid ${zonaM.color}44">${zonaM.emoji} ${zonaM.label}</span>`:''}
+  </div>`:'';
+  return`<div class="rist-card${andatiCls}" onclick="toggleRistAndati(${it.id})">
+    <div class="rist-thumbs" onclick="event.stopPropagation()">
+      <div class="${upCls}" onclick="setRistThumb(${it.id},'up')">👍</div>
+      <div class="${dnCls}" onclick="setRistThumb(${it.id},'down')">👎</div>
+    </div>
+    <div class="rist-card-body">
+      <div class="rist-card-name">${esc(it.text)}</div>
+      ${viaLine}
+      ${tagsLine}
+      <div class="rist-card-date">${it.date||''}</div>
+    </div>
+    <div class="item-actions" onclick="event.stopPropagation()">
+      ${mapsBtn}
+      <button class="act-btn del-btn" onclick="deleteRist(${it.id})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>`;
+}
+/* ══ HELPERS ══ */
+function persist(){localStorage.setItem('jb_local',JSON.stringify(items));}
+function persistFilm(){localStorage.setItem('jb_film_local',JSON.stringify(filmItems));}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function hm(){const n=new Date();return n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');}
+function sync(state,label){document.getElementById('syncDot').className='dot '+state;document.getElementById('syncLabel').textContent=label;}
+let _tt;
+function toast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className='toast show'+(type?' '+type:'');clearTimeout(_tt);_tt=setTimeout(()=>el.className='toast',2600);}
+window.addEventListener('beforeunload',()=>{persist();persistFilm();persistRist();persistAle();persistMemo();persistViaggi();});
+function setHeaderVar(){const h=document.querySelector('.header');if(h)document.documentElement.style.setProperty('--header-h',h.offsetHeight+'px');}
+window.addEventListener('resize',setHeaderVar);
+
+/* ══ SERVICE WORKER + WEB SHARE TARGET ══ */
+(function setupPWA(){
+  /* Register service worker for offline + share target */
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  }
+
+  /* ── Web Share Target handler ──
+     Android: quando l'utente condivide da Google Maps/Chrome → Panda Squad,
+     l'app riceve ?title=...&text=...&url=... e salva in Ristoranti.
+  */
+  function handleIncomingShare(){
+    const p = new URLSearchParams(window.location.search);
+    const sharedUrl   = p.get('url')   || '';
+    const sharedTitle = p.get('title') || '';
+    const sharedText  = p.get('text')  || '';
+    if(!sharedUrl && !sharedTitle && !sharedText) return;
+
+    /* Clean name: Google Maps usa "Nome · ⭐ 4.5 · Via Roma" → prendi solo la parte prima di "·" */
+    let name = sharedTitle || sharedText || sharedUrl;
+    if(name.includes('·')) name = name.split('·')[0].trim();
+    if(!sharedTitle && !sharedText && sharedUrl){
+      try{ name = new URL(sharedUrl).hostname.replace(/^www\./,''); }catch(e){}
+    }
+    name = name.trim().substring(0,120);
+    if(!name) return;
+
+    /* Estrai indirizzo se presente nel testo */
+    let via = null;
+    const combined = sharedTitle + ' ' + sharedText;
+    const viaMatch = combined.match(/(?:via|viale|piazza|corso|largo|vicolo|strada)\s+[^\n,·]{3,40}/i);
+    if(viaMatch) via = viaMatch[0].trim();
+
+    const mapsUrl = sharedUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
+    ristItems.unshift({
+      id:Date.now(), text:name, andati:false, thumb:null, mapsUrl, via,
+      tip:null, zona:null,
+      date:new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'})
+    });
+    persistRist(); saveAll();
+    switchSection('ristoranti');
+    toast('Ristorante aggiunto da condivisione ✓','ok');
+    try{ window.history.replaceState({},'',window.location.pathname); }catch(e){}
+  }
+  handleIncomingShare();
+})();
+
+init();setHeaderVar();
+</script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+  // Initialize Lucide icons (replaces <i data-lucide="..."> with actual SVGs)
+  if(typeof lucide !== 'undefined') lucide.createIcons();
+</script>
+</body>
+</html>
