@@ -2,7 +2,7 @@
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
-        "package_name": "io.github.pixelsaturn999.twa",
+        "package_name": "com.pandasquad.app",
         "sha256_cert_fingerprints": ["F8:1E:D9:81:C4:E6:EE:69:1D:E1:4D:16:8E:EA:40:43:B9:A2:A7:CE:15:E1:A4:7F:16:44:60:FA:A7:28:00:9A"]
       }
     }]
