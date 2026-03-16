@@ -1,0 +1,37 @@
+{
+  "name": "Panda Squad",
+  "short_name": "Panda Squad",
+  "description": "App di famiglia — Spesa, Film, Ristoranti, Viaggi, Memo, Ale",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f0f5f1",
+  "theme_color": "#6aaa82",
+  "lang": "it",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "share_target": {
+    "action": "./index.html",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text":  "text",
+      "url":   "url"
+    }
+  },
+  "categories": ["lifestyle", "utilities"]
+}
