@@ -1388,12 +1388,36 @@ async function createBin(){
 }
 
 /* Single save that writes ALL sections to JSONBin */
+/* Merge: mantieni oggetti locali + aggiungi oggetti presenti solo sul server (aggiunti da altro utente) */
+function mergeSection(local, server){
+  const localIds=new Set(local.map(i=>i.id));
+  const serverOnly=server.filter(i=>!localIds.has(i.id));
+  return [...local,...serverOnly].sort((a,b)=>b.id-a.id);
+}
+
 async function saveAll(){
-  /* always persist locally first */
+  /* 1. Salva subito in locale */
   persist(); persistFilm(); persistRist(); persistAle(); persistMemo(); persistViaggi();
   if(!apiKey||!binId) return;
   sync('syncing','Salvataggio…');
   try{
+    /* 2. Leggi stato corrente dal server */
+    const fr=await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`,{headers:{'X-Master-Key':apiKey}});
+    const fd=await fr.json();
+    if(fd.record){
+      const rec=fd.record;
+      /* 3. Merge: unisci modifiche locali con quelle arrivate da altri utenti */
+      if(Array.isArray(rec.items))       items       =mergeSection(items,rec.items);
+      if(Array.isArray(rec.filmItems))   filmItems   =mergeSection(filmItems,rec.filmItems);
+      if(Array.isArray(rec.ristItems))   ristItems   =mergeSection(ristItems,rec.ristItems);
+      if(Array.isArray(rec.aleItems))    aleItems    =mergeSection(aleItems,rec.aleItems);
+      if(Array.isArray(rec.memoItems))   memoItems   =mergeSection(memoItems,rec.memoItems);
+      if(Array.isArray(rec.viaggiItems)) viaggiItems =mergeSection(viaggiItems,rec.viaggiItems);
+      /* 4. Aggiorna locale e UI con il merge */
+      persist(); persistFilm(); persistRist(); persistAle(); persistMemo(); persistViaggi();
+      renderAll(); renderFilm(); renderRist(); renderAle(); renderMemo(); renderViaggi();
+    }
+    /* 5. Salva lo stato merged sul server */
     const payload={items,filmItems,ristItems,aleItems,memoItems,viaggiItems};
     const r=await fetch(`https://api.jsonbin.io/v3/b/${binId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':apiKey},body:JSON.stringify(payload)});
     const d=await r.json();
