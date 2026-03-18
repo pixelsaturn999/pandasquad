@@ -188,8 +188,8 @@ body.film-active .add-area{background:rgba(240,243,248,.92)}
 .cat-chip.selected{opacity:1;transform:scale(1.06)}
 .cat-chip:active{transform:scale(.92)}
 /* spesa */
-.cat-chip.box{border-color:#7eaadc;color:#7eaadc}.cat-chip.milk{border-color:#e2b96a;color:#e2b96a}.cat-chip.apple{border-color:#6aaa82;color:#6aaa82}.cat-chip.farmacia{border-color:#d4768a;color:#d4768a}.cat-chip.casa{border-color:#9b72c8;color:#9b72c8}
-.cat-chip.box.selected{background:rgba(126,170,220,.14)}.cat-chip.milk.selected{background:rgba(226,185,106,.14)}.cat-chip.apple.selected{background:rgba(106,170,130,.14)}.cat-chip.farmacia.selected{background:rgba(212,118,138,.14)}.cat-chip.casa.selected{background:rgba(155,114,200,.14)}
+.cat-chip.box{border-color:#7eaadc;color:#7eaadc}.cat-chip.milk{border-color:#e2b96a;color:#e2b96a}.cat-chip.apple{border-color:#6aaa82;color:#6aaa82}.cat-chip.farmacia{border-color:#d4768a;color:#d4768a}.cat-chip.casa{border-color:#9b72c8;color:#9b72c8}.cat-chip.ale-spesa{border-color:#555;color:#555}
+.cat-chip.box.selected{background:rgba(126,170,220,.14)}.cat-chip.milk.selected{background:rgba(226,185,106,.14)}.cat-chip.apple.selected{background:rgba(106,170,130,.14)}.cat-chip.farmacia.selected{background:rgba(212,118,138,.14)}.cat-chip.casa.selected{background:rgba(155,114,200,.14)}.cat-chip.ale-spesa.selected{background:rgba(85,85,85,.14)}
 /* film */
 .cat-chip.netflix{border-color:#e50914;color:#e50914}.cat-chip.prime{border-color:#00a8e0;color:#00a8e0}.cat-chip.disney{border-color:#00b4b4;color:#00b4b4}.cat-chip.pirata{border-color:#888;color:#888}.cat-chip.raiplay{border-color:#c8a800;color:#c8a800}
 .cat-chip.netflix.selected{background:rgba(229,9,20,.12)}.cat-chip.prime.selected{background:rgba(0,168,224,.12)}.cat-chip.disney.selected{background:rgba(0,180,180,.12)}.cat-chip.pirata.selected{background:rgba(100,100,100,.12)}.cat-chip.raiplay.selected{background:rgba(200,168,0,.12)}
@@ -256,7 +256,7 @@ body.film-active .add-area{background:rgba(240,243,248,.92)}
 .item{display:flex;align-items:center;gap:9px;padding:6px 10px;background:var(--card);border:1px solid var(--border);border-radius:11px;box-shadow:var(--shadow);animation:slideIn .2s ease;position:relative;overflow:hidden}
 @keyframes slideIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
 .item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;background:transparent;transition:background .2s}
-.item.has-cat-box::before{background:#7eaadc}.item.has-cat-milk::before{background:#e2b96a}.item.has-cat-apple::before{background:#6aaa82}.item.has-cat-farmacia::before{background:#d4768a}.item.has-cat-casa::before{background:#9b72c8}
+.item.has-cat-box::before{background:#7eaadc}.item.has-cat-milk::before{background:#e2b96a}.item.has-cat-apple::before{background:#6aaa82}.item.has-cat-farmacia::before{background:#d4768a}.item.has-cat-casa::before{background:#9b72c8}.item.has-cat-ale-spesa::before{background:#555}
 .item.done{background:var(--card2);border-color:var(--border);box-shadow:none;opacity:.68}
 .item-body{flex:1;min-width:0;cursor:pointer}
 .item-name-row{display:flex;align-items:center;gap:6px}
@@ -669,6 +669,7 @@ body.ristoranti-active .add-btn{background:#f1c704;box-shadow:0 2px 7px rgba(241
         <div class="cat-chip apple"    id="chip-apple"    onclick="selectCat('apple')">🍎 Ortofrutta</div>
         <div class="cat-chip farmacia" id="chip-farmacia" onclick="selectCat('farmacia')">💊 Farmacia</div>
         <div class="cat-chip casa"     id="chip-casa"     onclick="selectCat('casa')">🏠 Casa</div>
+        <div class="cat-chip ale-spesa" id="chip-ale-spesa" onclick="selectCat('ale-spesa')">🦊 Ale</div>
       </div>
     </div>
   </div>
@@ -896,6 +897,7 @@ body.ristoranti-active .add-btn{background:#f1c704;box-shadow:0 2px 7px rgba(241
       <div class="cat-chip apple"    id="eChip-apple"    onclick="selectEditCat('apple')">🍎 Ortofrutta</div>
       <div class="cat-chip farmacia" id="eChip-farmacia" onclick="selectEditCat('farmacia')">💊 Farmacia</div>
       <div class="cat-chip casa"     id="eChip-casa"     onclick="selectEditCat('casa')">🏠 Casa</div>
+      <div class="cat-chip ale-spesa" id="eChip-ale-spesa" onclick="selectEditCat('ale-spesa')">🦊 Ale</div>
     </div>
     <div class="edit-modal-actions">
       <button class="btn-modal-cancel" onclick="closeEditModal()">Annulla</button>
@@ -999,7 +1001,7 @@ let items=[],apiKey='',binId='';
 let doneOpen=true,mainOpen=true,altroOpen=true,altroDoneOpen=true;
 let newCat=null,sortMode=null,editingId=null,editingCat=null;
 const CAT_META={box:{emoji:'📦',label:'Non food',color:'#7eaadc'},milk:{emoji:'🥛',label:'Freschissimi',color:'#e2b96a'},apple:{emoji:'🍎',label:'Ortofrutta',color:'#6aaa82'},farmacia:{emoji:'💊',label:'Farmacia',color:'#d4768a'},casa:{emoji:'🏠',label:'Casa',color:'#9b72c8'}};
-const MAIN_CATS=['box','milk','apple'],ALTRO_CATS=['farmacia','casa'],MAIN_ORDER=['box','milk','apple'],ALTRO_ORDER=['farmacia','casa'];
+const MAIN_CATS=['box','milk','apple'],ALTRO_CATS=['farmacia','casa','ale-spesa'],MAIN_ORDER=['box','milk','apple'],ALTRO_ORDER=['farmacia','casa','ale-spesa'];
 
 /* ══ FILM STATE ══ */
 let filmItems=[],newFilmCat=null,newFilmPersona=null,filmSortMode=null,filmEditingId=null,filmEditingCat=null,filmEditingPersona=null;
@@ -1224,6 +1226,14 @@ function applyViaggiSort(arr){
 }
 function saveViaggiList(){saveAll();toast('Viaggi salvati ✓','ok');}
 function persistViaggi(){localStorage.setItem('jb_viaggi_local',JSON.stringify(viaggiItems));}
+/* Rende i link nel testo cliccabili */
+function linkify(text){
+  const escaped=esc(text);
+  return escaped.replace(/(https?:\/\/[^\s<]+)/g,
+    url=>`<a href="${url}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;word-break:break-all" onclick="event.stopPropagation()">${url}</a>`
+  );
+}
+
 function renderViaggi(){
   const sorted=applyViaggiSort(viaggiItems);
   document.getElementById('viaggiCount').textContent=sorted.length;
@@ -1235,8 +1245,7 @@ function renderViaggi(){
         const catDot=cm?`<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${cm.color};margin-right:5px;flex-shrink:0;vertical-align:middle"></span>`:'';
         return`<div class="ale-card${barCls}">
           <div class="ale-card-body">
-            <div class="ale-card-name">${catDot}${esc(it.text)}</div>
-            <div class="ale-card-date" style="display:flex;gap:6px;align-items:center">
+            <div class="ale-card-name">${catDot}${linkify(it.text)}</div>
               ${label?`<span style="font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:${cm?.color||'var(--text3)'}">${label}</span>`:''}
               ${label&&it.date?`<span style="opacity:.4">·</span>`:''}
               ${it.date?`<span>${it.date}</span>`:''}
@@ -1457,14 +1466,14 @@ function saveFilmList(){saveAll();toast('Film salvati ✓','ok');}
 function addItem(){const inp=document.getElementById('newItemInput');const t=inp.value.trim();if(!t)return;items.unshift({id:Date.now(),text:t,done:false,cat:newCat});inp.value='';newCat=null;hideCatChips();persist();renderAll();saveAll();}
 function toggleItem(id){const it=items.find(i=>i.id===id);if(!it)return;it.done=!it.done;persist();renderAll();saveAll();}
 function deleteItem(id){items=items.filter(i=>i.id!==id);persist();renderAll();saveAll();}
-function openEdit(id){const it=items.find(i=>i.id===id);if(!it)return;editingId=id;editingCat=it.cat||null;document.getElementById('editModalInput').value=it.text;['box','milk','apple','farmacia','casa'].forEach(c=>document.getElementById('eChip-'+c).classList.toggle('selected',editingCat===c));document.getElementById('editModal').classList.add('open');setTimeout(()=>document.getElementById('editModalInput').focus(),120);}
-function selectEditCat(cat){editingCat=(editingCat===cat)?null:cat;['box','milk','apple','farmacia','casa'].forEach(c=>document.getElementById('eChip-'+c).classList.toggle('selected',editingCat===c));}
+function openEdit(id){const it=items.find(i=>i.id===id);if(!it)return;editingId=id;editingCat=it.cat||null;document.getElementById('editModalInput').value=it.text;['box','milk','apple','farmacia','casa','ale-spesa'].forEach(c=>document.getElementById('eChip-'+c).classList.toggle('selected',editingCat===c));document.getElementById('editModal').classList.add('open');setTimeout(()=>document.getElementById('editModalInput').focus(),120);}
+function selectEditCat(cat){editingCat=(editingCat===cat)?null:cat;['box','milk','apple','farmacia','casa','ale-spesa'].forEach(c=>document.getElementById('eChip-'+c).classList.toggle('selected',editingCat===c));}
 function confirmEdit(){const t=document.getElementById('editModalInput').value.trim();if(!t||editingId===null){closeEditModal();return;}const it=items.find(i=>i.id===editingId);if(it){it.text=t;it.cat=editingCat;}closeEditModal();persist();renderAll();saveAll();}
 function closeEditModal(e){if(e&&e.target!==document.getElementById('editModal'))return;document.getElementById('editModal').classList.remove('open');editingId=null;editingCat=null;}
 function onTyping(){document.getElementById('newItemInput').value.trim().length>0?showCatChips():hideCatChips();}
 function showCatChips(){document.getElementById('catChips').classList.add('visible');}
 function hideCatChips(){document.getElementById('catChips').classList.remove('visible');selectCat(null);}
-function selectCat(cat){newCat=(newCat===cat&&cat!==null)?null:cat;['box','milk','apple','farmacia','casa'].forEach(c=>document.getElementById('chip-'+c).classList.toggle('selected',newCat===c));}
+function selectCat(cat){newCat=(newCat===cat&&cat!==null)?null:cat;['box','milk','apple','farmacia','casa','ale-spesa'].forEach(c=>document.getElementById('chip-'+c).classList.toggle('selected',newCat===c));}
 function sortAlpha(){sortMode=sortMode==='alpha'?null:'alpha';document.getElementById('btnAZ').classList.toggle('active',sortMode==='alpha');document.getElementById('btnCat').classList.remove('active');toast(sortMode==='alpha'?'Ordine alfabetico':'Ordinamento rimosso',sortMode==='alpha'?'ok':'');renderAll();}
 function sortByCategory(){sortMode=sortMode==='cat'?null:'cat';document.getElementById('btnCat').classList.toggle('active',sortMode==='cat');document.getElementById('btnAZ').classList.remove('active');toast(sortMode==='cat'?'Ordine per categoria':'Ordinamento rimosso',sortMode==='cat'?'ok':'');renderAll();}
 function applySort(arr,order){if(sortMode==='alpha')return[...arr].sort((a,b)=>a.text.localeCompare(b.text,'it'));if(sortMode==='cat')return[...arr].sort((a,b)=>{const ai=a.cat?order.indexOf(a.cat):99,bi=b.cat?order.indexOf(b.cat):99;return ai!==bi?ai-bi:a.text.localeCompare(b.text,'it')});return arr;}
