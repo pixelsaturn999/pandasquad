@@ -1055,7 +1055,7 @@ function addAleItem(){
   ALE_CATS.forEach(c=>document.getElementById('achip-'+c).classList.remove('selected'));
   saveAll(); renderAle();
 }
-function deleteAle(id){aleItems=aleItems.filter(i=>i.id!==id);saveAll();renderAle();}
+function deleteAle(id){_trackDelete('aleItems',id);aleItems=aleItems.filter(i=>i.id!==id);saveAll();renderAle();}
 function openAleEdit(id){
   const it=aleItems.find(i=>i.id===id); if(!it) return;
   aleEditingId=id; aleEditingCat=it.cat||null;
@@ -1113,7 +1113,7 @@ function addMemoItem(){
   COLOR_CATS.forEach(c=>document.getElementById('mchip-'+c).classList.remove('selected'));
   saveAll(); renderMemo();
 }
-function deleteMemo(id){memoItems=memoItems.filter(i=>i.id!==id);saveAll();renderMemo();}
+function deleteMemo(id){_trackDelete('memoItems',id);memoItems=memoItems.filter(i=>i.id!==id);saveAll();renderMemo();}
 function openMemoEdit(id){
   const it=memoItems.find(i=>i.id===id); if(!it) return;
   memoEditingId=id; memoEditingCat=it.cat||null;
@@ -1196,7 +1196,7 @@ function addViaggiItem(){
   VIAGGI_CATS.forEach(c=>document.getElementById('vchip-'+c).classList.remove('selected'));
   saveAll(); renderViaggi();
 }
-function deleteViaggi(id){viaggiItems=viaggiItems.filter(i=>i.id!==id);saveAll();renderViaggi();}
+function deleteViaggi(id){_trackDelete('viaggiItems',id);viaggiItems=viaggiItems.filter(i=>i.id!==id);saveAll();renderViaggi();}
 function openViaggiEdit(id){
   const it=viaggiItems.find(i=>i.id===id); if(!it) return;
   viaggiEditingId=id; viaggiEditingCat=it.cat||null;
@@ -1355,6 +1355,7 @@ function init(){
   if(apiKey) document.getElementById('apiKeyInput').value=apiKey;
   if(binId)  document.getElementById('binIdInput').value=binId;
   if(apiKey&&binId) document.getElementById('cfgNote').textContent='Connesso — BIN: '+binId;
+  _loadDeleted();
   try{items=JSON.parse(localStorage.getItem('jb_local')||'[]')}catch(e){items=[]}
   try{filmItems=JSON.parse(localStorage.getItem('jb_film_local')||'[]')}catch(e){filmItems=[]}
   try{ristItems=JSON.parse(localStorage.getItem('jb_rist_local')||'[]')}catch(e){ristItems=[]}
@@ -1397,36 +1398,47 @@ async function createBin(){
 }
 
 /* Single save that writes ALL sections to JSONBin */
-/* Merge: mantieni oggetti locali + aggiungi oggetti presenti solo sul server (aggiunti da altro utente) */
-function mergeSection(local, server){
+/* Registro delle cancellazioni (tombstone): { sectionKey: Set of deleted IDs } */
+const _deleted={items:new Set(),filmItems:new Set(),ristItems:new Set(),aleItems:new Set(),memoItems:new Set(),viaggiItems:new Set()};
+
+function _loadDeleted(){
+  try{const d=JSON.parse(localStorage.getItem('jb_deleted')||'{}');for(const k in _deleted){if(d[k])d[k].forEach(id=>_deleted[k].add(id));}}catch(e){}
+}
+function _persistDeleted(){
+  const d={};for(const k in _deleted)d[k]=[..._deleted[k]];
+  localStorage.setItem('jb_deleted',JSON.stringify(d));
+}
+function _trackDelete(section,id){
+  _deleted[section].add(id);
+  _persistDeleted();
+}
+
+/* Merge: aggiungi dal server solo oggetti NON cancellati localmente */
+function mergeSection(local, server, section){
   const localIds=new Set(local.map(i=>i.id));
-  const serverOnly=server.filter(i=>!localIds.has(i.id));
+  const deleted=_deleted[section]||new Set();
+  const serverOnly=server.filter(i=>!localIds.has(i.id)&&!deleted.has(i.id));
   return [...local,...serverOnly].sort((a,b)=>b.id-a.id);
 }
 
 async function saveAll(){
-  /* 1. Salva subito in locale */
   persist(); persistFilm(); persistRist(); persistAle(); persistMemo(); persistViaggi();
   if(!apiKey||!binId) return;
   sync('syncing','Salvataggio…');
   try{
-    /* 2. Leggi stato corrente dal server */
     const fr=await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`,{headers:{'X-Master-Key':apiKey}});
     const fd=await fr.json();
     if(fd.record){
       const rec=fd.record;
-      /* 3. Merge: unisci modifiche locali con quelle arrivate da altri utenti */
-      if(Array.isArray(rec.items))       items       =mergeSection(items,rec.items);
-      if(Array.isArray(rec.filmItems))   filmItems   =mergeSection(filmItems,rec.filmItems);
-      if(Array.isArray(rec.ristItems))   ristItems   =mergeSection(ristItems,rec.ristItems);
-      if(Array.isArray(rec.aleItems))    aleItems    =mergeSection(aleItems,rec.aleItems);
-      if(Array.isArray(rec.memoItems))   memoItems   =mergeSection(memoItems,rec.memoItems);
-      if(Array.isArray(rec.viaggiItems)) viaggiItems =mergeSection(viaggiItems,rec.viaggiItems);
-      /* 4. Aggiorna locale e UI con il merge */
+      if(Array.isArray(rec.items))       items       =mergeSection(items,rec.items,'items');
+      if(Array.isArray(rec.filmItems))   filmItems   =mergeSection(filmItems,rec.filmItems,'filmItems');
+      if(Array.isArray(rec.ristItems))   ristItems   =mergeSection(ristItems,rec.ristItems,'ristItems');
+      if(Array.isArray(rec.aleItems))    aleItems    =mergeSection(aleItems,rec.aleItems,'aleItems');
+      if(Array.isArray(rec.memoItems))   memoItems   =mergeSection(memoItems,rec.memoItems,'memoItems');
+      if(Array.isArray(rec.viaggiItems)) viaggiItems =mergeSection(viaggiItems,rec.viaggiItems,'viaggiItems');
       persist(); persistFilm(); persistRist(); persistAle(); persistMemo(); persistViaggi();
       renderAll(); renderFilm(); renderRist(); renderAle(); renderMemo(); renderViaggi();
     }
-    /* 5. Salva lo stato merged sul server */
     const payload={items,filmItems,ristItems,aleItems,memoItems,viaggiItems};
     const r=await fetch(`https://api.jsonbin.io/v3/b/${binId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':apiKey},body:JSON.stringify(payload)});
     const d=await r.json();
@@ -1465,7 +1477,7 @@ function saveFilmList(){saveAll();toast('Film salvati ✓','ok');}
 /* ══ SPESA ITEMS ══ */
 function addItem(){const inp=document.getElementById('newItemInput');const t=inp.value.trim();if(!t)return;items.unshift({id:Date.now(),text:t,done:false,cat:newCat});inp.value='';newCat=null;hideCatChips();persist();renderAll();saveAll();}
 function toggleItem(id){const it=items.find(i=>i.id===id);if(!it)return;it.done=!it.done;persist();renderAll();saveAll();}
-function deleteItem(id){items=items.filter(i=>i.id!==id);persist();renderAll();saveAll();}
+function deleteItem(id){_trackDelete('items',id);items=items.filter(i=>i.id!==id);persist();renderAll();saveAll();}
 function openEdit(id){const it=items.find(i=>i.id===id);if(!it)return;editingId=id;editingCat=it.cat||null;document.getElementById('editModalInput').value=it.text;['box','milk','apple','farmacia','casa','ale-spesa'].forEach(c=>document.getElementById('eChip-'+c).classList.toggle('selected',editingCat===c));document.getElementById('editModal').classList.add('open');setTimeout(()=>document.getElementById('editModalInput').focus(),120);}
 function selectEditCat(cat){editingCat=(editingCat===cat)?null:cat;['box','milk','apple','farmacia','casa','ale-spesa'].forEach(c=>document.getElementById('eChip-'+c).classList.toggle('selected',editingCat===c));}
 function confirmEdit(){const t=document.getElementById('editModalInput').value.trim();if(!t||editingId===null){closeEditModal();return;}const it=items.find(i=>i.id===editingId);if(it){it.text=t;it.cat=editingCat;}closeEditModal();persist();renderAll();saveAll();}
@@ -1508,7 +1520,7 @@ function itemHTML(it){
 
 /* ══ FILM ITEMS ══ */
 function addFilm(){const inp=document.getElementById('newFilmInput');const t=inp.value.trim();if(!t)return;filmItems.unshift({id:Date.now(),text:t,cat:newFilmCat,persona:newFilmPersona,downloaded:false,unavailable:false,watched:false});inp.value='';newFilmCat=null;newFilmPersona=null;hideFilmCatChips();saveAll();renderFilm();}
-function deleteFilm(id){filmItems=filmItems.filter(i=>i.id!==id);saveAll();renderFilm();}
+function deleteFilm(id){_trackDelete('filmItems',id);filmItems=filmItems.filter(i=>i.id!==id);saveAll();renderFilm();}
 function toggleFilmWatched(id){const it=filmItems.find(i=>i.id===id);if(!it)return;it.watched=!it.watched;saveAll();renderFilm();}
 function toggleFilmFlag(id,flag){const it=filmItems.find(i=>i.id===id);if(!it)return;it[flag]=!it[flag];saveAll();renderFilm();}
 function openFilmEdit(id){const it=filmItems.find(i=>i.id===id);if(!it)return;filmEditingId=id;filmEditingCat=it.cat||null;filmEditingPersona=it.persona||null;document.getElementById('editFilmModalInput').value=it.text;['netflix','prime','disney','pirata','raiplay'].forEach(c=>document.getElementById('eFchip-'+c).classList.toggle('selected',filmEditingCat===c));['nico','ila'].forEach(p=>document.getElementById('eFpchip-'+p).classList.toggle('selected',filmEditingPersona===p));document.getElementById('editFilmModal').classList.add('open');setTimeout(()=>document.getElementById('editFilmModalInput').focus(),120);}
@@ -1648,7 +1660,7 @@ function addRistManual(){
   RIST_ZONA_CATS.forEach(c=>document.getElementById('rzchip-'+c).classList.remove('selected'));
   saveAll(); renderRist();
 }
-function deleteRist(id){ristItems=ristItems.filter(i=>i.id!==id);saveAll();renderRist();}
+function deleteRist(id){_trackDelete('ristItems',id);ristItems=ristItems.filter(i=>i.id!==id);saveAll();renderRist();}
 function toggleRistAndati(id){const it=ristItems.find(i=>i.id===id);if(!it)return;it.andati=!it.andati;saveAll();renderRist();}
 function setRistThumb(id,val){
   const it=ristItems.find(i=>i.id===id);if(!it)return;
@@ -1724,7 +1736,9 @@ window.addEventListener('resize',setHeaderVar);
 (function setupPWA(){
   /* Register service worker for offline + share target */
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    navigator.serviceWorker.register('sw.js', {updateViaCache:'none'})
+      .then(reg => reg.update())
+      .catch(()=>{});
   }
 
   /* ── Web Share Target handler ──
