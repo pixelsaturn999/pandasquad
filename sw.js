@@ -1,5 +1,5 @@
 /* Panda Squad Service Worker */
-const CACHE = 'pandasquad-v2';
+const CACHE = 'pandasquad-v3';
 const ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
