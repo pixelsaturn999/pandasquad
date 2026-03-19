@@ -1736,7 +1736,9 @@ window.addEventListener('resize',setHeaderVar);
 (function setupPWA(){
   /* Register service worker for offline + share target */
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    navigator.serviceWorker.register('sw.js', {updateViaCache:'none'})
+      .then(reg => reg.update())
+      .catch(()=>{});
   }
 
   /* ── Web Share Target handler ──
